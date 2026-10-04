@@ -1,0 +1,24 @@
+{
+  "plan": "2023",
+  "nombre": "PLAN DE ESTUDIOS 2023 (64 HORAS)",
+  "materias": [
+    { "codigo": "INF-111", "nombre": "PROGRAMACIÓN I", "horas": 64 },
+    { "codigo": "INF-112", "nombre": "FUNDAMENTOS DIGITALES" },
+    { "codigo": "INF-113", "nombre": "PROGRAMACIÓN WEB I" },
+    { "codigo": "INF-114", "nombre": "ÁLGEBRA" },
+    { "codigo": "INF-115", "nombre": "CÁLCULO I" },
+    { "codigo": "INF-116", "nombre": "FÍSICA" },
+    { "codigo": "INF-121", "nombre": "PROGRAMACIÓN II", "horas": 64 },
+    { "codigo": "INF-122", "nombre": "PROGRAMACIÓN WEB II" },
+    { "codigo": "INF-123", "nombre": "ELECTRÓNICA GENERAL I" },
+    { "codigo": "INF-124", "nombre": "ESTADÍSTICA I" },
+    { "codigo": "INF-125", "nombre": "ÁLGEBRA LINEAL" },
+    { "codigo": "INF-126", "nombre": "CÁLCULO II" },
+    { "codigo": "INF-131", "nombre": "PROGRAMACIÓN III", "horas": 64 },
+    { "codigo": "INF-132", "nombre": "BASE DE DATOS I" },
+    { "codigo": "INF-133", "nombre": "PROGRAMACIÓN WEB III" },
+    { "codigo": "INF-134", "nombre": "ESTADÍSTICA II" },
+    { "codigo": "INF-135", "nombre": "SISTEMAS OPERATIVOS" },
+    { "codigo": "TRA-136", "nombre": "METODOLOGÍA DE LA INVESTIGACIÓN" }
+  ]
+}
