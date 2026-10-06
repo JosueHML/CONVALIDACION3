@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   GENERADOR DE EXCEL — SheetJS con formato profesional
+   GENERADOR DE EXCEL — SheetJS
    ═══════════════════════════════════════════════════════════════ */
 
 function exportarExcel() {
@@ -9,7 +9,6 @@ function exportarExcel() {
       return;
     }
 
-    // ─── Cargar datos ────────────────────────────────────────
     const est = JSON.parse(localStorage.getItem('estudiante') || '{}');
     const materias = JSON.parse(localStorage.getItem('materiasMarcadas') || '[]');
 
@@ -26,26 +25,9 @@ function exportarExcel() {
 
     const workbook = XLSX.utils.book_new();
 
-    // ═══════════════════════════════════════════════════════════
-    // PALETA DE COLORES (formato ARGB de Excel)
-    // ═══════════════════════════════════════════════════════════
-    const COLORES = {
-      azulUMSA:     'FF1A3A6B',
-      azulClaro:    'FFE8F4FC',
-      verde:        'FF28A745',
-      verdeClaro:   'FFD4EDDA',
-      morado:       'FF6F42C1',
-      moradoClaro:  'FFE9D8FD',
-      naranja:      'FFFD7E14',
-      naranjaClaro: 'FFFFF3CD',
-      grisClaro:    'FFF4F6F9',
-      blanco:       'FFFFFFFF',
-      negro:        'FF212529',
-    };
-
-    /* ═══════════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════
        HOJA 1: DATOS DEL ESTUDIANTE
-       ═══════════════════════════════════════════════════════════ */
+       ═══════════════════════════════════════════════════════ */
     const datosEstudiante = [
       ['SISTEMA DE CONVALIDACIONES 1998 → 2023 AJUSTADO'],
       ['Universidad Mayor de San Andrés'],
@@ -70,26 +52,25 @@ function exportarExcel() {
       { s: { r: 4, c: 0 }, e: { r: 4, c: 1 } },
     ];
 
-    // Formato
     aplicarFormato(wsDatos, {
-      'A1': { bold: true, size: 14, color: COLORES.azulUMSA, align: 'center' },
-      'A2': { bold: true, size: 12, color: COLORES.azulUMSA, align: 'center' },
-      'A3': { size: 10, italic: true, color: COLORES.negro, align: 'center' },
-      'A5': { bold: true, size: 12, color: COLORES.blanco, bg: COLORES.azulUMSA, align: 'center' },
-      'A6': { bold: true, bg: COLORES.grisClaro },
-      'A7': { bold: true, bg: COLORES.grisClaro },
-      'A8': { bold: true, bg: COLORES.grisClaro },
-      'A9': { bold: true, bg: COLORES.grisClaro },
-      'A10': { bold: true, bg: COLORES.grisClaro },
-      'A11': { bold: true, bg: COLORES.grisClaro },
-      'A12': { bold: true, bg: COLORES.grisClaro },
+      'A1': { bold: true, size: 14, color: 'FF1A3A6B', align: 'center' },
+      'A2': { bold: true, size: 12, color: 'FF1A3A6B', align: 'center' },
+      'A3': { size: 10, italic: true, align: 'center' },
+      'A5': { bold: true, size: 12, color: 'FFFFFFFF', bg: 'FF1A3A6B', align: 'center' },
+      'A6': { bold: true, bg: 'FFF4F6F9' },
+      'A7': { bold: true, bg: 'FFF4F6F9' },
+      'A8': { bold: true, bg: 'FFF4F6F9' },
+      'A9': { bold: true, bg: 'FFF4F6F9' },
+      'A10': { bold: true, bg: 'FFF4F6F9' },
+      'A11': { bold: true, bg: 'FFF4F6F9' },
+      'A12': { bold: true, bg: 'FFF4F6F9' },
     });
 
     XLSX.utils.book_append_sheet(workbook, wsDatos, 'Datos');
 
-    /* ═══════════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════
        HOJA 2: CONVALIDACIONES
-       ═══════════════════════════════════════════════════════════ */
+       ═══════════════════════════════════════════════════════ */
     const headersConv = [
       'PÉNSUM 1998',
       'Nombre 1998',
@@ -109,7 +90,7 @@ function exportarExcel() {
       m.nom2023 || '—',
       m.codigoDestino,
       m.nombreDestino,
-      '✅ Convalidada'
+      'CONVALIDADA'
     ]);
 
     const wsConv = XLSX.utils.aoa_to_sheet([
@@ -126,28 +107,23 @@ function exportarExcel() {
       { wch: 18 }
     ];
 
-    wsConv['!merges'] = [
-      { s: { r: 0, c: 0 }, e: { r: 0, c: 7 } },
-    ];
+    wsConv['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 7 } }];
 
-    // Formato de la hoja Convalidaciones
     const formatoConv = {
-      'A1': { bold: true, size: 14, color: COLORES.blanco, bg: COLORES.azulUMSA, align: 'center' },
+      'A1': { bold: true, size: 14, color: 'FFFFFFFF', bg: 'FF1A3A6B', align: 'center' },
     };
 
-    // Headers (fila 3, índice 2)
     for (let c = 0; c < headersConv.length; c++) {
       const col = String.fromCharCode(65 + c);
       formatoConv[`${col}3`] = {
-        bold: true, size: 11, color: COLORES.blanco, bg: COLORES.azulUMSA,
+        bold: true, size: 11, color: 'FFFFFFFF', bg: 'FF1A3A6B',
         align: 'center', border: true
       };
     }
 
-    // Filas de datos
     for (let r = 0; r < filasConv.length; r++) {
-      const rowIdx = r + 4; // fila 4 en adelante (1-indexed)
-      const bgRow = r % 2 === 0 ? COLORES.blanco : COLORES.grisClaro;
+      const rowIdx = r + 4;
+      const bgRow = r % 2 === 0 ? 'FFFFFFFF' : 'FFF4F6F9';
 
       for (let c = 0; c < 8; c++) {
         const col = String.fromCharCode(65 + c);
@@ -155,37 +131,29 @@ function exportarExcel() {
 
         let formato = {
           size: 10,
-          color: COLORES.negro,
           bg: bgRow,
           border: true,
-          align: c === 0 || c === 2 || c === 3 || c === 5 ? 'center' : 'left',
+          align: (c === 0 || c === 2 || c === 3 || c === 5 || c === 7) ? 'center' : 'left',
         };
 
-        // Columna A (PÉNSUM 1998) — azul claro
         if (c === 0) {
           formato.bold = true;
-          formato.color = COLORES.azulUMSA;
-          formato.bg = COLORES.azulClaro;
+          formato.color = 'FF1A3A6B';
+          formato.bg = 'FFE8F4FC';
         }
-
-        // Columna D (PÉNSUM 2023) — gris
         if (c === 3) {
           formato.bold = true;
           formato.color = 'FF6C757D';
         }
-
-        // Columna F (2023 AJUSTADO) — verde
         if (c === 5) {
           formato.bold = true;
-          formato.color = COLORES.verde;
-          formato.bg = COLORES.verdeClaro;
+          formato.color = 'FF28A745';
+          formato.bg = 'FFD4EDDA';
         }
-
-        // Columna H (Estado) — verde
         if (c === 7) {
           formato.bold = true;
-          formato.color = COLORES.verde;
-          formato.bg = COLORES.verdeClaro;
+          formato.color = 'FF28A745';
+          formato.bg = 'FFD4EDDA';
           formato.align = 'center';
         }
 
@@ -194,20 +162,21 @@ function exportarExcel() {
     }
 
     aplicarFormato(wsConv, formatoConv);
-
     XLSX.utils.book_append_sheet(workbook, wsConv, 'Convalidaciones');
 
-    /* ═══════════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════
        HOJA 3: ELECTIVAS
-       ═══════════════════════════════════════════════════════════ */
+       ═══════════════════════════════════════════════════════ */
     const todasElectivas = [
-      ...resultado.electivas,
-      ...(resultado.electivas1998 || []).map(e => ({
-        codigo: e.codigoOrigen,
-        nombre: e.nombreOrigen + ' (electiva libre 1998)',
-        origen: e.codigoOrigen,
-        regla: '1998'
-      }))
+      ...(resultado.electivas || []),
+      ...(resultado.electivas1998 || [])
+        .filter(e => e.codigoDestino)
+        .map(e => ({
+          codigo: e.codigoDestino,
+          nombre: e.nombreDestino,
+          origen: `${e.codigoOrigen} - ${e.nombreOrigen}`,
+          regla: 'Electiva 1998'
+        }))
     ];
 
     const wsElectivasData = [
@@ -228,43 +197,38 @@ function exportarExcel() {
 
     const wsElectivas = XLSX.utils.aoa_to_sheet(wsElectivasData);
     wsElectivas['!cols'] = [
-      { wch: 14 }, { wch: 55 }, { wch: 16 }, { wch: 16 }
+      { wch: 14 }, { wch: 55 }, { wch: 50 }, { wch: 16 }
     ];
-    wsElectivas['!merges'] = [
-      { s: { r: 0, c: 0 }, e: { r: 0, c: 3 } },
-    ];
+    wsElectivas['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 3 } }];
 
     const formatoElectivas = {
-      'A1': { bold: true, size: 14, color: COLORES.blanco, bg: COLORES.morado, align: 'center' },
-      'A3': { bold: true, size: 11, color: COLORES.blanco, bg: COLORES.morado, align: 'center', border: true },
-      'B3': { bold: true, size: 11, color: COLORES.blanco, bg: COLORES.morado, align: 'center', border: true },
-      'C3': { bold: true, size: 11, color: COLORES.blanco, bg: COLORES.morado, align: 'center', border: true },
-      'D3': { bold: true, size: 11, color: COLORES.blanco, bg: COLORES.morado, align: 'center', border: true },
+      'A1': { bold: true, size: 14, color: 'FFFFFFFF', bg: 'FF6F42C1', align: 'center' },
+      'A3': { bold: true, size: 11, color: 'FFFFFFFF', bg: 'FF6F42C1', align: 'center', border: true },
+      'B3': { bold: true, size: 11, color: 'FFFFFFFF', bg: 'FF6F42C1', align: 'center', border: true },
+      'C3': { bold: true, size: 11, color: 'FFFFFFFF', bg: 'FF6F42C1', align: 'center', border: true },
+      'D3': { bold: true, size: 11, color: 'FFFFFFFF', bg: 'FF6F42C1', align: 'center', border: true },
     };
 
     todasElectivas.forEach((e, r) => {
       const rowIdx = r + 4;
-      const bgRow = r % 2 === 0 ? COLORES.blanco : COLORES.moradoClaro;
-      formatoElectivas[`A${rowIdx}`] = { bold: true, color: COLORES.morado, bg: bgRow, border: true, align: 'center', size: 10 };
-      formatoElectivas[`B${rowIdx}`] = { color: COLORES.negro, bg: bgRow, border: true, size: 10 };
-      formatoElectivas[`C${rowIdx}`] = { color: COLORES.negro, bg: bgRow, border: true, align: 'center', size: 10 };
-      formatoElectivas[`D${rowIdx}`] = { color: COLORES.negro, bg: bgRow, border: true, align: 'center', size: 10 };
+      const bgRow = r % 2 === 0 ? 'FFFFFFFF' : 'FFF9F5FF';
+      formatoElectivas[`A${rowIdx}`] = { bold: true, color: 'FF6F42C1', bg: bgRow, border: true, align: 'center', size: 10 };
+      formatoElectivas[`B${rowIdx}`] = { bg: bgRow, border: true, size: 10 };
+      formatoElectivas[`C${rowIdx}`] = { bg: bgRow, border: true, size: 10 };
+      formatoElectivas[`D${rowIdx}`] = { bg: bgRow, border: true, align: 'center', size: 10 };
     });
 
     aplicarFormato(wsElectivas, formatoElectivas);
-
     XLSX.utils.book_append_sheet(workbook, wsElectivas, 'Electivas');
 
-    /* ═══════════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════
        HOJA 4: DUPLICADAS
-       ═══════════════════════════════════════════════════════════ */
+       ═══════════════════════════════════════════════════════ */
     const wsDuplicadasData = [
       ['MATERIAS DUPLICADAS (no se cuentan 2 veces)'],
       [],
       ['Código', 'Nombre', 'Motivo'],
-      ...resultado.duplicadas.map(d => [
-        d.codigo, d.nombre, d.motivo
-      ])
+      ...resultado.duplicadas.map(d => [d.codigo, d.nombre, d.motivo])
     ];
 
     if (resultado.duplicadas.length === 0) {
@@ -272,36 +236,31 @@ function exportarExcel() {
     }
 
     const wsDuplicadas = XLSX.utils.aoa_to_sheet(wsDuplicadasData);
-    wsDuplicadas['!cols'] = [
-      { wch: 14 }, { wch: 50 }, { wch: 50 }
-    ];
-    wsDuplicadas['!merges'] = [
-      { s: { r: 0, c: 0 }, e: { r: 0, c: 2 } },
-    ];
+    wsDuplicadas['!cols'] = [{ wch: 14 }, { wch: 50 }, { wch: 50 }];
+    wsDuplicadas['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 2 } }];
 
     const formatoDuplicadas = {
-      'A1': { bold: true, size: 14, color: COLORES.blanco, bg: COLORES.naranja, align: 'center' },
-      'A3': { bold: true, size: 11, color: COLORES.blanco, bg: COLORES.naranja, align: 'center', border: true },
-      'B3': { bold: true, size: 11, color: COLORES.blanco, bg: COLORES.naranja, align: 'center', border: true },
-      'C3': { bold: true, size: 11, color: COLORES.blanco, bg: COLORES.naranja, align: 'center', border: true },
+      'A1': { bold: true, size: 14, color: 'FFFFFFFF', bg: 'FFFD7E14', align: 'center' },
+      'A3': { bold: true, size: 11, color: 'FFFFFFFF', bg: 'FFFD7E14', align: 'center', border: true },
+      'B3': { bold: true, size: 11, color: 'FFFFFFFF', bg: 'FFFD7E14', align: 'center', border: true },
+      'C3': { bold: true, size: 11, color: 'FFFFFFFF', bg: 'FFFD7E14', align: 'center', border: true },
     };
 
     resultado.duplicadas.forEach((d, r) => {
       const rowIdx = r + 4;
-      const bgRow = r % 2 === 0 ? COLORES.blanco : COLORES.naranjaClaro;
-      formatoDuplicadas[`A${rowIdx}`] = { bold: true, color: COLORES.naranja, bg: bgRow, border: true, align: 'center', size: 10 };
-      formatoDuplicadas[`B${rowIdx}`] = { color: COLORES.negro, bg: bgRow, border: true, size: 10 };
-      formatoDuplicadas[`C${rowIdx}`] = { color: COLORES.negro, bg: bgRow, border: true, size: 10 };
+      const bgRow = r % 2 === 0 ? 'FFFFFFFF' : 'FFFFFBF0';
+      formatoDuplicadas[`A${rowIdx}`] = { bold: true, color: 'FFFD7E14', bg: bgRow, border: true, align: 'center', size: 10 };
+      formatoDuplicadas[`B${rowIdx}`] = { bg: bgRow, border: true, size: 10 };
+      formatoDuplicadas[`C${rowIdx}`] = { bg: bgRow, border: true, size: 10 };
     });
 
     aplicarFormato(wsDuplicadas, formatoDuplicadas);
-
     XLSX.utils.book_append_sheet(workbook, wsDuplicadas, 'Duplicadas');
 
-    /* ═══════════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════
        HOJA 5: RESUMEN
-       ═══════════════════════════════════════════════════════════ */
-    const totalElectivas = resultado.electivas.length + (resultado.electivas1998 || []).length;
+       ═══════════════════════════════════════════════════════ */
+    const totalElectivas = todasElectivas.length;
 
     const wsResumenData = [
       ['RESUMEN DE CONVALIDACIÓN'],
@@ -317,33 +276,30 @@ function exportarExcel() {
 
     const wsResumen = XLSX.utils.aoa_to_sheet(wsResumenData);
     wsResumen['!cols'] = [{ wch: 32 }, { wch: 14 }];
-    wsResumen['!merges'] = [
-      { s: { r: 0, c: 0 }, e: { r: 0, c: 1 } },
-    ];
+    wsResumen['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 1 } }];
 
     const formatoResumen = {
-      'A1': { bold: true, size: 14, color: COLORES.blanco, bg: COLORES.azulUMSA, align: 'center' },
-      'A3': { bold: true, size: 11, color: COLORES.blanco, bg: COLORES.azulUMSA, align: 'center', border: true },
-      'B3': { bold: true, size: 11, color: COLORES.blanco, bg: COLORES.azulUMSA, align: 'center', border: true },
-      'A4': { bold: true, color: COLORES.verde, bg: COLORES.verdeClaro, border: true, size: 11 },
-      'B4': { bold: true, color: COLORES.verde, bg: COLORES.verdeClaro, border: true, align: 'center', size: 11 },
-      'A5': { bold: true, color: COLORES.morado, bg: COLORES.moradoClaro, border: true, size: 11 },
-      'B5': { bold: true, color: COLORES.morado, bg: COLORES.moradoClaro, border: true, align: 'center', size: 11 },
-      'A6': { bold: true, color: COLORES.naranja, bg: COLORES.naranjaClaro, border: true, size: 11 },
-      'B6': { bold: true, color: COLORES.naranja, bg: COLORES.naranjaClaro, border: true, align: 'center', size: 11 },
+      'A1': { bold: true, size: 14, color: 'FFFFFFFF', bg: 'FF1A3A6B', align: 'center' },
+      'A3': { bold: true, size: 11, color: 'FFFFFFFF', bg: 'FF1A3A6B', align: 'center', border: true },
+      'B3': { bold: true, size: 11, color: 'FFFFFFFF', bg: 'FF1A3A6B', align: 'center', border: true },
+      'A4': { bold: true, color: 'FF28A745', bg: 'FFD4EDDA', border: true, size: 11 },
+      'B4': { bold: true, color: 'FF28A745', bg: 'FFD4EDDA', border: true, align: 'center', size: 11 },
+      'A5': { bold: true, color: 'FF6F42C1', bg: 'FFE9D8FD', border: true, size: 11 },
+      'B5': { bold: true, color: 'FF6F42C1', bg: 'FFE9D8FD', border: true, align: 'center', size: 11 },
+      'A6': { bold: true, color: 'FFFD7E14', bg: 'FFFFF3CD', border: true, size: 11 },
+      'B6': { bold: true, color: 'FFFD7E14', bg: 'FFFFF3CD', border: true, align: 'center', size: 11 },
       'A7': { bold: true, color: 'FFDC3545', bg: 'FFF8D7DA', border: true, size: 11 },
       'B7': { bold: true, color: 'FFDC3545', bg: 'FFF8D7DA', border: true, align: 'center', size: 11 },
-      'A9': { bold: true, color: COLORES.azulUMSA, bg: COLORES.azulClaro, border: true, size: 11 },
-      'B9': { bold: true, color: COLORES.azulUMSA, bg: COLORES.azulClaro, border: true, align: 'center', size: 11 },
+      'A9': { bold: true, color: 'FF1A3A6B', bg: 'FFE8F4FC', border: true, size: 11 },
+      'B9': { bold: true, color: 'FF1A3A6B', bg: 'FFE8F4FC', border: true, align: 'center', size: 11 },
     };
 
     aplicarFormato(wsResumen, formatoResumen);
-
     XLSX.utils.book_append_sheet(workbook, wsResumen, 'Resumen');
 
-    /* ═══════════════════════════════════════════════════════════
+    /* ═══════════════════════════════════════════════════════
        GUARDAR
-       ═══════════════════════════════════════════════════════════ */
+       ═══════════════════════════════════════════════════════ */
     const nombreArchivo = `Convalidacion_${est.cedula || 'estudiante'}.xlsx`;
     XLSX.writeFile(workbook, nombreArchivo);
 
@@ -351,12 +307,12 @@ function exportarExcel() {
 
   } catch (error) {
     console.error('❌ Error al generar Excel:', error);
-    alert("⚠️ Error al generar el Excel. Verifica la consola.");
+    alert("⚠️ Error al generar el Excel. Verifica la consola (F12).");
   }
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   APLICAR FORMATO A LAS CELDAS
+   APLICAR FORMATO A CELDAS
    ═══════════════════════════════════════════════════════════════ */
 function aplicarFormato(worksheet, formato) {
   Object.entries(formato).forEach(([celda, estilos]) => {

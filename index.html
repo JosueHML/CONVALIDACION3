@@ -18,6 +18,9 @@
         <h1>UNIVERSIDAD MAYOR DE SAN ANDRÉS</h1>
         <p>Facultad de Ciencias Puras y Naturales — Carrera de Informática</p>
       </div>
+      <div class="header-badge">
+        <span>Sistema v3.0</span>
+      </div>
     </div>
   </header>
 
@@ -25,10 +28,22 @@
        BARRA DE PROGRESO
        ═══════════════════════════════════════════════════════════ -->
   <div class="progress-bar" id="progressBar">
-    <div class="progress-step" data-step="1">1. Datos</div>
-    <div class="progress-step" data-step="2">2. Materias</div>
-    <div class="progress-step" data-step="3">3. Resultado</div>
-    <div class="progress-step" data-step="4">4. Exportar</div>
+    <div class="progress-step" data-step="1">
+      <span class="step-num">1</span>
+      <span class="step-label">Datos</span>
+    </div>
+    <div class="progress-step" data-step="2">
+      <span class="step-num">2</span>
+      <span class="step-label">Materias</span>
+    </div>
+    <div class="progress-step" data-step="3">
+      <span class="step-num">3</span>
+      <span class="step-label">Electivas</span>
+    </div>
+    <div class="progress-step" data-step="4">
+      <span class="step-num">4</span>
+      <span class="step-label">Resultado</span>
+    </div>
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════
@@ -47,12 +62,12 @@
         </div>
 
         <div class="opciones-inicio">
-          <button class="btn-opcion" onclick="navegar('vista-lector')">
+          <button class="btn-opcion" onclick="iniciarFlujoPDF()">
             <span class="btn-icono">📤</span>
             <span class="btn-titulo">SUBIR PDF</span>
             <span class="btn-desc">Sube tu historial académico escaneado</span>
           </button>
-          <button class="btn-opcion" onclick="navegar('vista-datos')">
+          <button class="btn-opcion" onclick="iniciarFlujoManual()">
             <span class="btn-icono">✋</span>
             <span class="btn-titulo">MARCAR MANUAL</span>
             <span class="btn-desc">Marca una por una las que aprobaste</span>
@@ -96,32 +111,38 @@
           </div>
 
           <div class="form-group">
-            <label>🎓 Mención 1998</label>
-            <select id="mencion1998">
+            <label>🎓 Mención que desea migrar</label>
+            <select id="mencionDestino">
               <option value="">— Selecciona —</option>
-              <option value="CIENCIAS DE LA COMPUTACION">CIENCIAS DE LA COMPUTACION</option>
-              <option value="INGENIERIA DE SISTEMAS">INGENIERIA DE SISTEMAS</option>
+              <option value="CIENCIAS DE LA COMPUTACION">CIENCIAS DE LA COMPUTACIÓN</option>
+              <option value="INGENIERIA DE SISTEMAS">INGENIERÍA DE SISTEMAS</option>
+              <option value="DESARROLLO DE SOFTWARE E INNOVACION TECNOLOGICA">DESARROLLO DE SOFTWARE E INNOVACIÓN TECNOLÓGICA</option>
+              <option value="INTELIGENCIA ARTIFICIAL Y CIENCIA DE DATOS">INTELIGENCIA ARTIFICIAL Y CIENCIA DE DATOS</option>
+              <option value="REDES Y TECNOLOGIAS DE LA INFORMACION Y COMUNICACION (TIC)">REDES Y TECNOLOGÍAS DE LA INFORMACIÓN Y COMUNICACIÓN (TIC)</option>
+              <option value="SEGURIDAD DE LA INFORMACION">SEGURIDAD DE LA INFORMACIÓN</option>
+              <option value="INFORMATICA INDUSTRIAL">INFORMÁTICA INDUSTRIAL</option>
             </select>
+            <small class="ayuda">Elige a cuál de las 7 menciones del plan 2023 Ajustado quieres migrar</small>
           </div>
         </div>
 
+        <!-- RADIO: PLAN 1998 — ¿APROBÓ CÁLCULO IV? -->
         <div class="card-seccion">
-          <label class="label-grande">⚠️ ¿Aprobó CÁLCULO IV?</label>
+          <label class="label-grande">⚠️ PLAN DE 1998 — ¿Aprobó CÁLCULO IV?</label>
           <div class="radio-group">
             <label class="radio-opcion">
               <input type="radio" name="calculoIV" value="si">
-              <span>SÍ → Puede ir a INGENIERÍA DE SISTEMAS</span>
+              <span><strong>SÍ</strong> → Puede ir a INGENIERÍA DE SISTEMAS</span>
             </label>
             <label class="radio-opcion">
               <input type="radio" name="calculoIV" value="no">
-              <span>NO → Va a CIENCIAS DE LA COMPUTACIÓN</span>
+              <span><strong>NO</strong> → Va a CIENCIAS DE LA COMPUTACIÓN</span>
             </label>
           </div>
-        </div>
-
-        <div class="card-seccion">
-          <label class="label-grande">🎯 Mención 2023 Ajustado (calculada automáticamente)</label>
-          <div class="resultado-auto" id="mencionAuto">— Selecciona una opción —</div>
+          <small class="ayuda" style="margin-top:12px; display:block;">
+            ℹ️ Sirve como referencia para saber en qué mención estabas en el plan 1998.
+            <strong>No restringe</strong> tu elección de mención destino.
+          </small>
         </div>
 
         <div class="card-footer">
@@ -140,22 +161,16 @@
     <div class="container">
       <div class="card">
         <div class="card-header">
-          <button class="btn-volver" onclick="navegar('vista-inicio')">← Volver</button>
+          <button class="btn-volver" onclick="navegar('vista-datos')">← Volver</button>
           <h2>02 · Subir Historial Académico</h2>
         </div>
 
         <p class="info-text">
           Sube tu historial académico en PDF. El sistema buscará las materias
-          con estado <strong>APROBADO</strong> y su período. Después podrás
-          verificar y corregir manualmente.
+          con estado <strong>APROBADO</strong> y su período.
         </p>
 
-        <!-- ═══════════════════════════════════════════════════════
-             ZONA DE CARGA — DISEÑO MEJORADO
-             ═══════════════════════════════════════════════════════ -->
         <div class="upload-wrapper">
-
-          <!-- Paso 1 -->
           <div class="upload-pasos">
             <div class="upload-paso">
               <span class="upload-paso-num">1</span>
@@ -173,7 +188,6 @@
             </div>
           </div>
 
-          <!-- Zona de carga -->
           <div class="zona-carga" id="zonaCarga">
             <div class="zona-carga-icono">📄</div>
             <div class="zona-carga-titulo">HAZ CLIC AQUÍ PARA SUBIR TU PDF</div>
@@ -181,11 +195,10 @@
             <div class="zona-carga-formatos">Formato aceptado: PDF</div>
             <input type="file" id="inputPDF" accept=".pdf" hidden>
           </div>
-
         </div>
 
         <div class="card-footer">
-          <button class="btn-secundario" onclick="navegar('vista-marcar')">
+          <button class="btn-secundario" onclick="flujoActual='manual'; navegar('vista-marcar')">
             ✋ Mejor marcar manualmente
           </button>
           <button class="btn-primario" id="btnProcesarPDF" disabled onclick="procesarPDF()">
@@ -194,7 +207,6 @@
         </div>
       </div>
 
-      <!-- Panel de progreso -->
       <div class="card" id="cardProgreso" style="display:none;">
         <div class="card-header">
           <h2>⏳ Procesando PDF...</h2>
@@ -207,78 +219,68 @@
         </div>
       </div>
 
-      <!-- Panel de verificación manual -->
       <div class="card" id="cardVerificacion" style="display:none;">
         <div class="card-header">
           <h2>🔍 Verifica las materias detectadas</h2>
         </div>
 
-        <p class="info-text">
-          El sistema detectó las siguientes materias aprobadas.
-          Corrige lo que haga falta, agrega las que falten o elimina las que no correspondan.
-        </p>
-
-        <!-- Tabla de materias detectadas -->
         <div id="tablaDetectadas"></div>
 
-        <!-- ═══════════════════════════════════════════════════════
-             AGREGAR MATERIA MANUAL — DISEÑO MEJORADO
+                <!-- ═══════════════════════════════════════════════════════
+             AGREGAR MATERIA MANUAL — CON AUTOCOMPLETADO
              ═══════════════════════════════════════════════════════ -->
         <div class="agregar-materia-manual">
           <div class="manual-header">
             <div class="manual-icono">➕</div>
             <div>
               <h3>¿Falta alguna materia en la lista?</h3>
-              <p>Agrégala aquí manualmente. Solo debes escribir el código, elegir el plan y la gestión en que la aprobaste.</p>
+              <p>Busca por código o nombre, o selecciona del listado. El sistema completará los datos automáticamente.</p>
             </div>
           </div>
 
           <div class="manual-form">
+            <!-- Campo Código con autocompletado -->
             <div class="manual-campo">
-              <label for="nuevaCodigo">
-                📝 Código de la materia
-              </label>
-              <input
-                type="text"
-                id="nuevaCodigo"
-                placeholder="Ej: INF-111, MAT-115, FIS-122"
-                autocomplete="off"
-                oninput="validarCodigoEnVivo(this)">
+              <label for="nuevaCodigo">📝 Código de la materia</label>
+              <div class="autocomplete-wrapper">
+                <input 
+                  type="text" 
+                  id="nuevaCodigo" 
+                  placeholder="Ej: INF-111, MAT-114..." 
+                  autocomplete="off"
+                  oninput="buscarMateriaAutocomplete(this.value)"
+                  onfocus="buscarMateriaAutocomplete(this.value)"
+                >
+                <div class="autocomplete-lista" id="autocompleteLista" style="display:none;"></div>
+              </div>
               <small class="manual-ayuda" id="ayudaCodigo">
-                Escribe el código tal como aparece en tu historial. Ejemplo: <strong>INF-111</strong>
+                Escribe el código o selecciona de la lista
               </small>
             </div>
 
+            <!-- Campo Plan -->
             <div class="manual-campo">
-              <label for="nuevaPlan">
-                📚 ¿De qué plan es la materia?
-              </label>
-              <select id="nuevaPlan">
+              <label for="nuevaPlan">📚 Plan</label>
+              <select id="nuevaPlan" onchange="actualizarGestionesNuevaMateria()">
                 <option value="">Selecciona el plan...</option>
                 <option value="1998">Plan 1998 (materias antiguas)</option>
                 <option value="2023">Plan 2023 (materias nuevas)</option>
               </select>
-              <small class="manual-ayuda">
-                Si la aprobaste antes de 2023 → <strong>Plan 1998</strong>. Si fue en 2023 o después → <strong>Plan 2023</strong>.
-              </small>
             </div>
 
+            <!-- Campo Gestión -->
             <div class="manual-campo">
-              <label for="nuevaGestion">
-                📅 ¿En qué gestión la aprobaste?
-              </label>
+              <label for="nuevaGestion">📅 Gestión</label>
               <select id="nuevaGestion">
-                <option value="">Selecciona la gestión...</option>
+                <option value="">Primero elige el plan...</option>
               </select>
-              <small class="manual-ayuda">
-                La gestión es el año y semestre. Ej: <strong>2015 PRIMERO</strong>, <strong>2024 SEGUNDO</strong>.
-              </small>
             </div>
 
+            <!-- Botón -->
             <div class="manual-boton">
               <button class="btn-agregar-materia" onclick="agregarMateriaManual(event)">
                 <span class="btn-icono">➕</span>
-                AGREGAR A LA LISTA
+                AGREGAR
               </button>
             </div>
           </div>
@@ -289,14 +291,14 @@
             🗑️ LIMPIAR TODO
           </button>
           <button class="btn-primario" onclick="confirmarDeteccion()">
-            ✅ CONFIRMAR Y VER CONVALIDACIÓN
+            ✅ CONFIRMAR Y CONTINUAR
           </button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════════════════
+    <!-- ═══════════════════════════════════════════════════════════
        VISTA 2 — MARCAR MANUAL
        ═══════════════════════════════════════════════════════════ -->
   <section class="vista" id="vista-marcar">
@@ -309,20 +311,34 @@
 
         <p class="info-text">
           Marca las materias que aprobaste y selecciona la gestión (período) en que las aprobaste.
-          Cada materia puede tener una gestión diferente.
         </p>
 
-        <!-- BLOQUE 1998 -->
+        <!-- ═══════════════════════════════════════════════════════
+             BLOQUE 1 — PLAN 1998 CON BUSCADOR
+             ═══════════════════════════════════════════════════════ -->
         <div class="bloque-plan bloque-1998">
           <div class="bloque-header">
             <h3>📘 BLOQUE 1 — PLAN 1998</h3>
           </div>
-          <div class="bloque-materias" id="materias1998">
-            <!-- Se llena con JS -->
+
+          <div class="buscador-materias buscador-1998">
+            <div class="buscador-icono">🔍</div>
+            <input 
+              type="text" 
+              id="buscador1998" 
+              class="buscador-input"
+              placeholder="Buscar en PLAN 1998 por código o nombre... (ej: INF-111, Programación)"
+              autocomplete="off"
+            >
+            <button class="buscador-limpiar" onclick="limpiarBuscador('1998')" title="Limpiar">×</button>
           </div>
+
+          <div class="bloque-materias" id="materias1998"></div>
         </div>
 
-        <!-- BLOQUE 2023 -->
+        <!-- ═══════════════════════════════════════════════════════
+             BLOQUE 2 — PLAN 2023 CON BUSCADOR
+             ═══════════════════════════════════════════════════════ -->
         <div class="bloque-plan bloque-2023">
           <div class="bloque-header">
             <h3>📗 BLOQUE 2 — PLAN 2023</h3>
@@ -331,9 +347,20 @@
             ⚠️ IMPORTANTE: Si apruebas INF-111, INF-121 o INF-131 en 2023 o 2024,
             se te asignará una ELECTIVA adicional por regla 64h→32h.
           </div>
-          <div class="bloque-materias" id="materias2023">
-            <!-- Se llena con JS -->
+
+          <div class="buscador-materias buscador-2023">
+            <div class="buscador-icono">🔍</div>
+            <input 
+              type="text" 
+              id="buscador2023" 
+              class="buscador-input"
+              placeholder="Buscar en PLAN 2023 por código o nombre... (ej: INF-111, Programación)"
+              autocomplete="off"
+            >
+            <button class="buscador-limpiar" onclick="limpiarBuscador('2023')" title="Limpiar">×</button>
           </div>
+
+          <div class="bloque-materias" id="materias2023"></div>
         </div>
 
         <div class="card-footer">
@@ -341,17 +368,36 @@
             🗑️ LIMPIAR TODO
           </button>
           <button class="btn-primario" onclick="confirmarMaterias()">
-            ✅ CONFIRMAR Y VER CONVALIDACIÓN
+            ✅ CONFIRMAR Y CONTINUAR
           </button>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Tabla de materias agregadas -->
-      <div class="card" id="card-agregadas" style="display:none;">
+  <!-- ═══════════════════════════════════════════════════════════
+       VISTA 2B — SELECCIÓN DE ELECTIVAS
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="vista" id="vista-electivas">
+    <div class="container">
+      <div class="card">
         <div class="card-header">
-          <h2>📋 Materias Marcadas</h2>
+          <button class="btn-volver" onclick="navegar('vista-marcar')">← Volver</button>
+          <h2>03 · Selección de Electivas</h2>
         </div>
-        <div id="tablaAgregadas"></div>
+
+        <p class="info-text" id="electivasIntro">
+          Detectamos materias del 1998 que convalidan como <strong>ELECTIVA</strong>.
+          Elige qué optativa de tu mención quieres que se te asigne por cada una.
+        </p>
+
+        <div id="listaElectivas"></div>
+
+        <div class="card-footer">
+          <button class="btn-primario" onclick="confirmarElectivas()">
+            ✅ CONFIRMAR Y VER RESULTADO
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -378,16 +424,12 @@
         <div class="card-header">
           <h2>🎁 Tus Materias Electivas Asignadas</h2>
         </div>
-        <p class="info-text">
-          Estas electivas te fueron asignadas automáticamente por la regla de conversión
-          64h → 32h de tu mención.
-        </p>
         <div id="tablaElectivas"></div>
       </div>
 
       <div class="card card-duplicadas">
         <div class="card-header">
-          <h2>⚠️ Materias Duplicadas (no se cuentan 2 veces)</h2>
+          <h2>⚠️ Materias Duplicadas</h2>
         </div>
         <div id="tablaDuplicadas"></div>
       </div>
@@ -404,10 +446,6 @@
             📊 DESCARGAR EXCEL
           </button>
         </div>
-        <p class="info-text">
-          En el PDF/Excel verás el detalle completo con las columnas:
-          Plan 1998 → Plan 2023 → Plan 2023 Ajustado
-        </p>
       </div>
     </div>
   </section>
@@ -420,18 +458,10 @@
     <p>Sistema de Convalidaciones v3.0 — Resolución HCU 533/2022</p>
   </footer>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       LIBRERÍAS EXTERNAS — PDF y Excel
-       ═══════════════════════════════════════════════════════════ -->
-
-  <!-- jsPDF + autoTable (para generar PDF) -->
+  <!-- Librerías externas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
-
-  <!-- SheetJS (para generar Excel) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
-  <!-- PDF.js (para leer PDF) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
     if (typeof pdfjsLib !== 'undefined') {
@@ -439,9 +469,7 @@
     }
   </script>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       SCRIPTS PROPIOS
-       ═══════════════════════════════════════════════════════════ -->
+  <!-- Scripts propios -->
   <script src="js/cargador.js"></script>
   <script src="js/datos_mock.js"></script>
   <script src="js/lector.js"></script>

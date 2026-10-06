@@ -468,79 +468,37 @@ function renderTablaPlan(plan, lista) {
   const opciones = gestiones.map(g => `<option value="${g}">${g}</option>`).join('');
 
   return `
-    <div style="margin-top:24px;">
-      <div style="
-        background:${c.bg};
-        border-left:5px solid ${c.color};
-        padding:12px 16px;
-        border-radius:8px 8px 0 0;
-        display:flex;
-        align-items:center;
-        gap:12px;
-        flex-wrap:wrap;
-      ">
-        <h3 style="color:${c.color};font-size:15px;margin:0;">
-          ${c.icono} ${c.titulo}
-        </h3>
-        <span style="
-          background:${c.color};
-          color:white;
-          padding:3px 10px;
-          border-radius:12px;
-          font-size:12px;
-          font-weight:700;
-        ">${lista.length} materias</span>
+    <div class="plan-bloque plan-bloque-${plan === '1998' ? '1998' : '2023'}" style="margin-top:24px;">
+      <div class="plan-bloque-header">
+        <h3>${c.icono} ${c.titulo}</h3>
+        <span class="plan-contador">${lista.length} materias</span>
       </div>
 
-      <div style="
-        background:white;
-        border:1px solid #dee2e6;
-        border-top:none;
-        padding:10px 16px;
-        display:flex;
-        align-items:center;
-        gap:12px;
-        flex-wrap:wrap;
-        font-size:13px;
-      ">
-        <label style="cursor:pointer;display:flex;align-items:center;gap:6px;">
+      <div class="plan-bloque-acciones">
+        <label>
           <input type="checkbox" onchange="toggleTodoPlan('${plan}', this.checked)">
           <strong>Marcar / desmarcar todas</strong>
         </label>
 
-        <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
+        <div class="asignar-gestion">
           <label style="font-size:12px;color:#6c757d;">Asignar gestión a todas:</label>
-          <select id="${idSelect}" style="
-            padding:5px 10px;
-            border:1px solid #dee2e6;
-            border-radius:6px;
-            font-size:12px;
-          ">
+          <select id="${idSelect}">
             <option value="">— Gestión —</option>
             ${opciones}
           </select>
-          <button onclick="aplicarGestionMasiva('${plan}')" style="
-            padding:5px 12px;
-            background:${c.color};
-            color:white;
-            border:none;
-            border-radius:6px;
-            font-size:12px;
-            font-weight:600;
-            cursor:pointer;
-          ">Aplicar</button>
+          <button onclick="aplicarGestionMasiva('${plan}')">Aplicar</button>
         </div>
       </div>
 
-      <div class="tabla-wrapper" style="border-radius:0 0 8px 8px;border-top:none;">
+      <div class="tabla-wrapper">
         <table>
           <thead>
             <tr>
-              <th style="width:40px;text-align:center;">✓</th>
-              <th style="width:110px;">Código</th>
+              <th>✓</th>
+              <th>Código</th>
               <th>Nombre</th>
-              <th style="width:180px;">Gestión</th>
-              <th style="width:50px;text-align:center;">✕</th>
+              <th>Gestión</th>
+              <th>✕</th>
             </tr>
           </thead>
           <tbody>
@@ -581,23 +539,24 @@ function renderFilaDetectada(m, idx, plan) {
         <input type="checkbox" checked data-plan="${plan}">
       </td>
       <td>
-        <span style="
-          font-weight:700;
-          color:${c.color};
-          font-size:13px;
-        ">${m.codigo}</span>
+        <span style="font-weight:800;color:${c.color};font-size:13px;font-family:var(--fuente-mono);">
+          ${m.codigo}
+        </span>
       </td>
-      <td style="font-size:13px;">${m.nombre}</td>
+      <td style="font-size:13px;">
+        ${m.nombre}
+      </td>
       <td>
         <select
           data-idx="${idx}"
           onchange="cambiarGestionDetectada(this)"
           style="
             width:100%;
-            padding:5px 8px;
-            border:1px solid ${sinGestion ? '#fd7e14' : '#dee2e6'};
-            border-radius:6px;
+            padding:8px 12px;
+            border:2px solid ${sinGestion ? '#fd7e14' : '#dee2e6'};
+            border-radius:8px;
             font-size:12px;
+            font-weight:600;
             background:${sinGestion ? '#fff3cd' : 'white'};
           "
         >
@@ -611,7 +570,6 @@ function renderFilaDetectada(m, idx, plan) {
     </tr>
   `;
 }
-
 /* ═══════════════════════════════════════════════════════════════
    9. ACCIONES MASIVAS
    ═══════════════════════════════════════════════════════════════ */
@@ -689,33 +647,133 @@ function cargarGestionesNuevaMateria() {
     GESTIONES_DISPONIBLES.map(g => `<option value="${g}">${g}</option>`).join('');
 }
 
-function agregarMateriaManual() {
-  const codigo = document.getElementById('nuevaCodigo').value.trim().toUpperCase();
+function agregarMateriaManual(event) {
+  const inputCodigo = document.getElementById('nuevaCodigo');
+  const codigoRaw = inputCodigo.value.trim().toUpperCase();
   const plan = document.getElementById('nuevaPlan').value;
   const gestion = document.getElementById('nuevaGestion').value;
 
-  if (!codigo || !plan || !gestion) {
-    alert("⚠️ Completa código, plan y gestión.");
+  // Validaciones
+  if (!codigoRaw) {
+    alert("⚠️ Escribe el código de la materia o selecciónalo de la lista.");
+    inputCodigo.focus();
     return;
   }
 
-  const nombre = buscarNombreEnPlanes(codigo, plan);
+  const codigoNorm = codigoRaw.replace(/\s+/g, '-').replace(/--/g, '-');
 
+  if (!plan) {
+    alert("⚠️ Selecciona el plan de la materia.");
+    document.getElementById('nuevaPlan').focus();
+    return;
+  }
+
+  if (!gestion) {
+    alert("⚠️ Selecciona la gestión en que aprobaste la materia.");
+    document.getElementById('nuevaGestion').focus();
+    return;
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // BUSCAR NOMBRE AUTOMÁTICAMENTE
+  // ═══════════════════════════════════════════════════════════
+  let nombre = '(no encontrado)';
+  let codigoFinal = codigoNorm;
+
+  // Buscar en plan 1998
+  if (plan === '1998' && DATOS.plan1998?.materias) {
+    const encontrado = DATOS.plan1998.materias.find(m => 
+      m.codigo === codigoNorm || 
+      m.codigo === codigoNorm.replace('-', ' ') ||
+      m.codigo.replace(/\s/g, '-') === codigoNorm
+    );
+    if (encontrado) {
+      nombre = encontrado.nombre;
+      codigoFinal = encontrado.codigo;
+    }
+  }
+
+  // Buscar en plan 2023
+  if (plan === '2023' && DATOS.plan2023?.materias) {
+    const encontrado = DATOS.plan2023.materias.find(m => 
+      m.codigo === codigoNorm ||
+      m.codigo === codigoNorm.replace('-', ' ') ||
+      m.codigo.replace(/\s/g, '-') === codigoNorm
+    );
+    if (encontrado) {
+      nombre = encontrado.nombre;
+      codigoFinal = encontrado.codigo;
+    }
+  }
+
+  // Si no encontró en los planes específicos, buscar en TODOS
+  if (nombre === '(no encontrado)') {
+    const todosPlanes = [
+      ...(DATOS.plan1998?.materias || []),
+      ...(DATOS.plan2023?.materias || [])
+    ];
+    const encontrado = todosPlanes.find(m => 
+      m.codigo === codigoNorm ||
+      m.codigo.replace(/\s/g, '-') === codigoNorm
+    );
+    if (encontrado) {
+      nombre = encontrado.nombre;
+      codigoFinal = encontrado.codigo;
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // VERIFICAR DUPLICADOS
+  // ═══════════════════════════════════════════════════════════
+  const yaExiste = materiasDetectadas.some(
+    m => m.codigo === codigoFinal && m.gestion === gestion
+  );
+
+  if (yaExiste) {
+    alert(`⚠️ Ya agregaste ${codigoFinal} con la gestión ${gestion}.`);
+    return;
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // AGREGAR
+  // ═══════════════════════════════════════════════════════════
   materiasDetectadas.push({
-    codigo,
+    codigo: codigoFinal,
     nombre,
     gestion,
     plan: plan === '1998' ? '1998' : '2023',
     confianza: 'alta'
   });
 
-  document.getElementById('nuevaCodigo').value = '';
+  // Limpiar inputs
+  inputCodigo.value = '';
+  inputCodigo.classList.remove('valido', 'invalido');
   document.getElementById('nuevaPlan').value = '';
-  document.getElementById('nuevaGestion').value = '';
+  document.getElementById('nuevaGestion').innerHTML = '<option value="">Primero elige el plan...</option>';
 
+  // Reset ayuda
+  const ayuda = document.getElementById('ayudaCodigo');
+  ayuda.classList.remove('error', 'exito');
+  ayuda.textContent = 'Escribe el código o selecciona de la lista';
+
+  // Ocultar autocomplete
+  document.getElementById('autocompleteLista').style.display = 'none';
+
+  // Refrescar tabla
   mostrarVerificacion();
-}
 
+  // Feedback visual
+  const btn = event?.target?.closest('button');
+  if (btn) {
+    const textoOriginal = btn.innerHTML;
+    btn.innerHTML = '<span class="btn-icono">✅</span> ¡AGREGADA!';
+    btn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+    setTimeout(() => {
+      btn.innerHTML = textoOriginal;
+      btn.style.background = '';
+    }, 1500);
+  }
+}
 /* ═══════════════════════════════════════════════════════════════
    11. CONFIRMAR Y PASAR AL MOTOR
    ═══════════════════════════════════════════════════════════════ */
@@ -916,3 +974,152 @@ function confirmarDeteccion() {
     }
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   AUTOCOMPLETADO DE MATERIAS
+   ═══════════════════════════════════════════════════════════════ */
+
+let autocompleteTimeout = null;
+
+function buscarMateriaAutocomplete(termino) {
+  clearTimeout(autocompleteTimeout);
+
+  autocompleteTimeout = setTimeout(() => {
+    const lista = document.getElementById('autocompleteLista');
+    if (!lista) return;
+
+    const busqueda = termino.toLowerCase().trim();
+    const planSeleccionado = document.getElementById('nuevaPlan').value;
+
+    // ═══════════════════════════════════════════════════════════
+    // Si no hay plan seleccionado, avisar
+    // ═══════════════════════════════════════════════════════════
+    if (!planSeleccionado) {
+      lista.innerHTML = `
+        <div class="autocomplete-vacio">
+          ⚠️ Primero selecciona el <strong>Plan</strong> (1998 o 2023)
+        </div>
+      `;
+      lista.style.display = 'block';
+      return;
+    }
+
+    // Si no hay término, ocultar
+    if (!busqueda || busqueda.length < 1) {
+      lista.style.display = 'none';
+      return;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // Buscar SOLO en el plan seleccionado
+    // ═══════════════════════════════════════════════════════════
+    const resultados = [];
+
+    if (planSeleccionado === '1998' && DATOS.plan1998?.materias) {
+      DATOS.plan1998.materias.forEach(m => {
+        if (m.codigo.toLowerCase().includes(busqueda) ||
+            m.nombre.toLowerCase().includes(busqueda)) {
+          resultados.push({ ...m, plan: '1998' });
+        }
+      });
+    } else if (planSeleccionado === '2023' && DATOS.plan2023?.materias) {
+      DATOS.plan2023.materias.forEach(m => {
+        if (m.codigo.toLowerCase().includes(busqueda) ||
+            m.nombre.toLowerCase().includes(busqueda)) {
+          resultados.push({ ...m, plan: '2023' });
+        }
+      });
+    }
+
+    // Mostrar máximo 15 resultados
+    const mostrar = resultados.slice(0, 15);
+
+    if (mostrar.length === 0) {
+      lista.innerHTML = `
+        <div class="autocomplete-vacio">
+          No se encontraron materias del <strong>Plan ${planSeleccionado}</strong> con "${termino}"
+        </div>
+      `;
+      lista.style.display = 'block';
+      return;
+    }
+
+    lista.innerHTML = mostrar.map(r => `
+      <div class="autocomplete-item" onclick="seleccionarMateriaAutocomplete('${r.codigo}', '${r.nombre.replace(/'/g, "\\'")}', '${r.plan}')">
+        <span class="ac-codigo">${r.codigo}</span>
+        <span class="ac-nombre">${r.nombre}</span>
+        <span class="ac-plan plan-${r.plan === '1998' ? '1998' : '2023'}">PLAN ${r.plan}</span>
+      </div>
+    `).join('');
+
+    lista.style.display = 'block';
+  }, 150);
+}
+
+function seleccionarMateriaAutocomplete(codigo, nombre, plan) {
+  // Llenar los campos
+  document.getElementById('nuevaCodigo').value = codigo;
+  document.getElementById('nuevaPlan').value = plan;
+
+  // Ocultar lista
+  document.getElementById('autocompleteLista').style.display = 'none';
+
+  // Actualizar gestiones según el plan
+  actualizarGestionesNuevaMateria();
+
+  // Actualizar ayuda
+  const ayuda = document.getElementById('ayudaCodigo');
+  ayuda.classList.remove('error', 'exito');
+  ayuda.classList.add('exito');
+  ayuda.innerHTML = `✅ <strong>${codigo}</strong> — ${nombre}`;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACTUALIZAR GESTIONES SEGÚN EL PLAN
+   ═══════════════════════════════════════════════════════════════ */
+function actualizarGestionesNuevaMateria() {
+  const plan = document.getElementById('nuevaPlan').value;
+  const sel = document.getElementById('nuevaGestion');
+
+  // Limpiar el autocomplete al cambiar de plan
+  const lista = document.getElementById('autocompleteLista');
+  if (lista) lista.style.display = 'none';
+
+  // Limpiar el input de código
+  const inputCodigo = document.getElementById('nuevaCodigo');
+  if (inputCodigo) inputCodigo.value = '';
+
+  // Reset ayuda
+  const ayuda = document.getElementById('ayudaCodigo');
+  if (ayuda) {
+    ayuda.classList.remove('error', 'exito');
+    ayuda.textContent = plan
+      ? `Escribe el código de una materia del Plan ${plan}`
+      : 'Primero elige el plan';
+  }
+
+  if (!plan) {
+    sel.innerHTML = '<option value="">Primero elige el plan...</option>';
+    return;
+  }
+
+  const gestiones = GESTIONES_DISPONIBLES.filter(g => {
+    const anio = parseInt(g.split(" ")[0]);
+    if (plan === '1998') return anio >= 1998 && anio < 2023;
+    return anio >= 2023 && anio <= 2026;
+  });
+
+  sel.innerHTML = '<option value="">— Selecciona gestión —</option>' +
+    gestiones.map(g => `<option value="${g}">${g}</option>`).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CERRAR AUTOCOMPLETE AL HACER CLIC FUERA
+   ═══════════════════════════════════════════════════════════════ */
+document.addEventListener('click', (e) => {
+  const wrapper = e.target.closest('.autocomplete-wrapper');
+  if (!wrapper) {
+    const lista = document.getElementById('autocompleteLista');
+    if (lista) lista.style.display = 'none';
+  }
+});

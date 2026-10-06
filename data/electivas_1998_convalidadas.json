@@ -1,0 +1,76 @@
+{
+  "descripcion": "Tabla de electivas del plan 1998 y su equivalencia según mención destino",
+  "por_mencion": {
+    "INFORMATICA INDUSTRIAL": {
+      "INF-327": { "tipo": "convalida", "codigo": "IID-251", "nombre": "SISTEMAS DE CONTROL" },
+      "INF-329": { "tipo": "convalida", "codigo": "INF-314", "nombre": "INGLÉS TÉCNICO" },
+      "INF-333": { "tipo": "convalida", "codigo": "INF-315", "nombre": "PREPARACIÓN Y EVALUACIÓN DE PROYECTOS" },
+      "INF-354": { "tipo": "convalida", "codigo": "INF-335", "nombre": "INTELIGENCIA ARTIFICIAL" },
+      "INF-357": { "tipo": "convalida", "codigo": "INF-244", "nombre": "INTRODUCCIÓN A LA ROBÓTICA" }
+    },
+
+    "DESARROLLO DE SOFTWARE E INNOVACION TECNOLOGICA": {
+      "INF-314": { "tipo": "convalida", "codigo": "INF-320", "nombre": "AUDITORÍA DE SISTEMAS" },
+      "INF-315": { "tipo": "convalida", "codigo": "INF-371", "nombre": "SEGURIDAD DE LA INFORMACIÓN" },
+      "INF-316": { "tipo": "convalida", "codigo": "INF-334", "nombre": "DIRECCIÓN DE PROYECTOS INFORMÁTICOS" },
+      "INF-323": { "tipo": "convalida", "codigo": "TVD-251", "nombre": "PROGRAMACIÓN GRÁFICA" },
+      "INF-324": { "tipo": "convalida", "codigo": "INF-263", "nombre": "DESARROLLO DE APP MULTIMEDIA" },
+      "INF-325": { "tipo": "convalida", "codigo": "INF-313", "nombre": "REALIDAD AUMENTADA Y VIRTUAL" },
+      "INF-329": { "tipo": "convalida", "codigo": "INF-314", "nombre": "INGLÉS TÉCNICO" },
+      "INF-333": { "tipo": "convalida", "codigo": "INF-315", "nombre": "PREPARACIÓN Y EVALUACIÓN DE PROYECTOS" },
+      "INF-354": { "tipo": "convalida", "codigo": "INF-372", "nombre": "INTELIGENCIA ARTIFICIAL" },
+      "INF-357": { "tipo": "convalida", "codigo": "INF-244", "nombre": "INTRODUCCIÓN A LA ROBÓTICA" }
+    },
+
+    "INTELIGENCIA ARTIFICIAL Y CIENCIA DE DATOS": {
+      "INF-314": { "tipo": "convalida", "codigo": "INF-320", "nombre": "AUDITORÍA DE SISTEMAS" },
+      "INF-329": { "tipo": "convalida", "codigo": "INF-314", "nombre": "INGLÉS TÉCNICO" },
+      "INF-333": { "tipo": "convalida", "codigo": "INF-315", "nombre": "PREPARACIÓN Y EVALUACIÓN DE PROYECTOS" },
+      "INF-354": { "tipo": "convalida", "codigo": "DAT-245", "nombre": "INTELIGENCIA ARTIFICIAL" },
+      "INF-322": { "tipo": "convalida", "codigo": "DAT-241", "nombre": "PROGRAMACIÓN DISTRIBUIDA Y PARALELA" }
+    },
+
+    "INGENIERIA DE SISTEMAS": {
+      "CPA-201": { "tipo": "convalida", "codigo": "SIS-325", "nombre": "SISTEMAS CONTABLES" },
+      "INF-314": { "tipo": "convalida", "codigo": "SIS-382", "nombre": "AUDITORÍA DE SISTEMAS" },
+      "INF-315": { "tipo": "convalida", "codigo": "INF-265", "nombre": "SEGURIDAD DE LA INFORMACIÓN" },
+      "INF-324": { "tipo": "convalida", "codigo": "INF-133", "nombre": "PROGRAMACIÓN WEB III" },
+      "INF-329": { "tipo": "convalida", "codigo": "INF-314", "nombre": "INGLÉS TÉCNICO" },
+      "INF-331": { "tipo": "convalida", "codigo": "SIS-373", "nombre": "ORGANIZACIÓN Y MÉTODOS" },
+      "INF-332": { "tipo": "convalida", "codigo": "SIS-328", "nombre": "SISTEMAS ECONÓMICOS" },
+      "INF-333": { "tipo": "convalida", "codigo": "SIS-253", "nombre": "PREPARACIÓN Y EVALUACIÓN DE PROYECTOS" },
+      "INF-336": { "tipo": "convalida", "codigo": "SIS-315", "nombre": "TEORÍA GENERAL DE SISTEMAS" },
+      "INF-354": { "tipo": "convalida", "codigo": "INF-335", "nombre": "INTELIGENCIA ARTIFICIAL" },
+      "INF-322": { "tipo": "convalida", "codigo": "SIS-324", "nombre": "PROGRAMACIÓN DISTRIBUIDA Y PARALELA" }
+    },
+
+    "REDES Y TECNOLOGIAS DE LA INFORMACION Y COMUNICACION (TIC)": {
+      "INF-314": { "tipo": "convalida", "codigo": "INF-320", "nombre": "AUDITORÍA DE SISTEMAS" },
+      "INF-315": { "tipo": "convalida", "codigo": "INF-265", "nombre": "SEGURIDAD DE LA INFORMACIÓN" },
+      "INF-316": { "tipo": "convalida", "codigo": "TIC-253", "nombre": "DIRECCIÓN DE PROYECTOS INFORMÁTICOS" },
+      "INF-329": { "tipo": "convalida", "codigo": "INF-314", "nombre": "INGLÉS TÉCNICO" },
+      "INF-333": { "tipo": "convalida", "codigo": "INF-315", "nombre": "PREPARACIÓN Y EVALUACIÓN DE PROYECTOS" },
+      "INF-354": { "tipo": "convalida", "codigo": "COM-252", "nombre": "INTELIGENCIA ARTIFICIAL" }
+    },
+
+    "SEGURIDAD DE LA INFORMACION": {
+      "INF-314": { "tipo": "convalida", "codigo": "SIS-382", "nombre": "AUDITORÍA DE SISTEMAS" },
+      "INF-315": { "tipo": "convalida", "codigo": "SEG-244", "nombre": "SEGURIDAD DE LA INFORMACIÓN" },
+      "INF-329": { "tipo": "convalida", "codigo": "INF-314", "nombre": "INGLÉS TÉCNICO" },
+      "INF-333": { "tipo": "convalida", "codigo": "INF-315", "nombre": "PREPARACIÓN Y EVALUACIÓN DE PROYECTOS" },
+      "INF-354": { "tipo": "convalida", "codigo": "INF-335", "nombre": "INTELIGENCIA ARTIFICIAL" }
+    },
+
+    "CIENCIAS DE LA COMPUTACION": {
+      "INF-315": { "tipo": "convalida", "codigo": "INF-265", "nombre": "SEGURIDAD DE LA INFORMACIÓN" },
+      "INF-320": { "tipo": "convalida", "codigo": "COM-312", "nombre": "PROGRAMACIÓN LÓGICA" },
+      "INF-329": { "tipo": "convalida", "codigo": "INF-314", "nombre": "INGLÉS TÉCNICO" },
+      "INF-333": { "tipo": "convalida", "codigo": "INF-315", "nombre": "PREPARACIÓN Y EVALUACIÓN DE PROYECTOS" },
+      "INF-351": { "tipo": "convalida", "codigo": "COM-313", "nombre": "SISTEMAS EXPERTOS" },
+      "INF-354": { "tipo": "convalida", "codigo": "COM-252", "nombre": "INTELIGENCIA ARTIFICIAL" },
+      "INF-360": { "tipo": "convalida", "codigo": "COM-323", "nombre": "COMPUTABILIDAD Y COMPLEJIDAD ALGORÍTMICA" },
+      "INF-322": { "tipo": "convalida", "codigo": "COM-263", "nombre": "COMPUTACIÓN PARALELA" }
+    }
+  },
+  "nota": "Las electivas del 1998 que NO están en esta tabla convalidan como ELECTIVA libre. El estudiante elige la optativa de su mención."
+}
