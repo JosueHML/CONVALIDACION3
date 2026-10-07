@@ -22,7 +22,7 @@ function renderizarBloque(contenedorId, materias, plan) {
 
   const gestiones = GESTIONES_DISPONIBLES.filter(g => {
     const anio = parseInt(g.split(" ")[0]);
-    if (plan === '1998') return anio >= 1998 && anio < 2023;
+    if (plan === '1998') return anio >= 1998 && anio < 2026;
     return anio >= 2023 && anio <= 2026;
   });
 

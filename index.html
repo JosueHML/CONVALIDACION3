@@ -61,18 +61,15 @@
           <div class="beneficio">📄 Genera tu PDF y Excel oficial</div>
         </div>
 
-        <div class="opciones-inicio">
-          <button class="btn-opcion" onclick="iniciarFlujoPDF()">
-            <span class="btn-icono">📤</span>
-            <span class="btn-titulo">SUBIR PDF</span>
-            <span class="btn-desc">Sube tu historial académico escaneado</span>
-          </button>
-          <button class="btn-opcion" onclick="iniciarFlujoManual()">
-            <span class="btn-icono">✋</span>
-            <span class="btn-titulo">MARCAR MANUAL</span>
-            <span class="btn-desc">Marca una por una las que aprobaste</span>
+        <div class="inicio-botones">
+          <button class="btn-primario btn-grande" onclick="navegar('vista-datos')">
+            🚀 COMENZAR CONVALIDACIÓN
           </button>
         </div>
+
+        <p class="inicio-nota">
+          ⏱️ El proceso toma aproximadamente 2 minutos
+        </p>
       </div>
     </div>
   </section>
@@ -105,9 +102,11 @@
           </div>
 
           <div class="form-group">
-            <label>📅 Año de ingreso</label>
-            <input type="number" id="anioIngreso" placeholder="Ej: 2022" min="1990" max="2026" step="1">
-            <small class="ayuda">Escribe el año (1990 – 2026)</small>
+            <label>📅 Gestión de ingreso</label>
+            <select id="gestionIngreso">
+              <option value="">— Selecciona tu gestión de ingreso —</option>
+            </select>
+            <small class="ayuda">¿En qué gestión ingresaste a la carrera?</small>
           </div>
 
           <div class="form-group">
@@ -126,29 +125,15 @@
           </div>
         </div>
 
-        <!-- RADIO: PLAN 1998 — ¿APROBÓ CÁLCULO IV? -->
-        <div class="card-seccion">
-          <label class="label-grande">⚠️ PLAN DE 1998 — ¿Aprobó CÁLCULO IV?</label>
-          <div class="radio-group">
-            <label class="radio-opcion">
-              <input type="radio" name="calculoIV" value="si">
-              <span><strong>SÍ</strong> → Puede ir a INGENIERÍA DE SISTEMAS</span>
-            </label>
-            <label class="radio-opcion">
-              <input type="radio" name="calculoIV" value="no">
-              <span><strong>NO</strong> → Va a CIENCIAS DE LA COMPUTACIÓN</span>
-            </label>
-          </div>
-          <small class="ayuda" style="margin-top:12px; display:block;">
-            ℹ️ Sirve como referencia para saber en qué mención estabas en el plan 1998.
-            <strong>No restringe</strong> tu elección de mención destino.
-          </small>
-        </div>
-
+      
         <div class="card-footer">
-          <button class="btn-primario" onclick="validarYContinuar()">
-            CONTINUAR →
+          <button class="btn-secundario" onclick="validarYContinuarPDF()">
+            📤 SUBIR PDF
           </button>
+          <button class="btn-secundario" onclick="validarYContinuarManual()">
+            ✋ LLENAR FORMA MANUAL
+          </button>
+          
         </div>
       </div>
     </div>
@@ -198,9 +183,7 @@
         </div>
 
         <div class="card-footer">
-          <button class="btn-secundario" onclick="flujoActual='manual'; navegar('vista-marcar')">
-            ✋ Mejor marcar manualmente
-          </button>
+          
           <button class="btn-primario" id="btnProcesarPDF" disabled onclick="procesarPDF()">
             ▶ PROCESAR PDF
           </button>
@@ -226,9 +209,7 @@
 
         <div id="tablaDetectadas"></div>
 
-                <!-- ═══════════════════════════════════════════════════════
-             AGREGAR MATERIA MANUAL — CON AUTOCOMPLETADO
-             ═══════════════════════════════════════════════════════ -->
+        <!-- AGREGAR MATERIA MANUAL -->
         <div class="agregar-materia-manual">
           <div class="manual-header">
             <div class="manual-icono">➕</div>
@@ -239,7 +220,6 @@
           </div>
 
           <div class="manual-form">
-            <!-- Campo Código con autocompletado -->
             <div class="manual-campo">
               <label for="nuevaCodigo">📝 Código de la materia</label>
               <div class="autocomplete-wrapper">
@@ -258,7 +238,6 @@
               </small>
             </div>
 
-            <!-- Campo Plan -->
             <div class="manual-campo">
               <label for="nuevaPlan">📚 Plan</label>
               <select id="nuevaPlan" onchange="actualizarGestionesNuevaMateria()">
@@ -268,7 +247,6 @@
               </select>
             </div>
 
-            <!-- Campo Gestión -->
             <div class="manual-campo">
               <label for="nuevaGestion">📅 Gestión</label>
               <select id="nuevaGestion">
@@ -276,7 +254,6 @@
               </select>
             </div>
 
-            <!-- Botón -->
             <div class="manual-boton">
               <button class="btn-agregar-materia" onclick="agregarMateriaManual(event)">
                 <span class="btn-icono">➕</span>
@@ -298,7 +275,7 @@
     </div>
   </section>
 
-    <!-- ═══════════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════════
        VISTA 2 — MARCAR MANUAL
        ═══════════════════════════════════════════════════════════ -->
   <section class="vista" id="vista-marcar">
@@ -313,9 +290,6 @@
           Marca las materias que aprobaste y selecciona la gestión (período) en que las aprobaste.
         </p>
 
-        <!-- ═══════════════════════════════════════════════════════
-             BLOQUE 1 — PLAN 1998 CON BUSCADOR
-             ═══════════════════════════════════════════════════════ -->
         <div class="bloque-plan bloque-1998">
           <div class="bloque-header">
             <h3>📘 BLOQUE 1 — PLAN 1998</h3>
@@ -327,7 +301,7 @@
               type="text" 
               id="buscador1998" 
               class="buscador-input"
-              placeholder="Buscar en PLAN 1998 por código o nombre... (ej: INF-111, Programación)"
+              placeholder="Buscar en PLAN 1998 por código o nombre... (ej: INF-111)"
               autocomplete="off"
             >
             <button class="buscador-limpiar" onclick="limpiarBuscador('1998')" title="Limpiar">×</button>
@@ -336,9 +310,6 @@
           <div class="bloque-materias" id="materias1998"></div>
         </div>
 
-        <!-- ═══════════════════════════════════════════════════════
-             BLOQUE 2 — PLAN 2023 CON BUSCADOR
-             ═══════════════════════════════════════════════════════ -->
         <div class="bloque-plan bloque-2023">
           <div class="bloque-header">
             <h3>📗 BLOQUE 2 — PLAN 2023</h3>
@@ -354,7 +325,7 @@
               type="text" 
               id="buscador2023" 
               class="buscador-input"
-              placeholder="Buscar en PLAN 2023 por código o nombre... (ej: INF-111, Programación)"
+              placeholder="Buscar en PLAN 2023 por código o nombre... (ej: INF-111)"
               autocomplete="off"
             >
             <button class="buscador-limpiar" onclick="limpiarBuscador('2023')" title="Limpiar">×</button>

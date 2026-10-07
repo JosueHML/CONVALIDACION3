@@ -2508,7 +2508,57 @@ table tbody tr:nth-child(even):hover {
   color: white;
   transform: scale(1.1);
 }
+/* ═══════════════════════════════════════════════════════════════
+   BOTÓN PRINCIPAL EN VISTA DE INICIO
+   ═══════════════════════════════════════════════════════════════ */
+.inicio-botones {
+  margin: 32px 0 16px;
+  display: flex;
+  justify-content: center;
+}
 
+.btn-grande {
+  padding: 20px 48px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 24px rgba(26, 58, 107, 0.3);
+  border-radius: 12px;
+}
+
+.btn-grande:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(26, 58, 107, 0.4);
+}
+
+.inicio-nota {
+  font-size: 13px;
+  color: var(--gris-500);
+  margin-top: 16px;
+  font-style: italic;
+}
+/* ═══════════════════════════════════════════════════════════════
+   BOTONES EN CARD-FOOTER (vista de datos)
+   ═══════════════════════════════════════════════════════════════ */
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gris-100);
+}
+
+@media (max-width: 640px) {
+  .card-footer {
+    justify-content: stretch;
+  }
+  .card-footer button {
+    flex: 1;
+    min-width: 140px;
+  }
+}
 /* ═══════════════════════════════════════════════════════════════
    IMPORTANTE: LA TABLA USA <table> NATIVO, NO GRID
    Esto elimina el conflicto con las reglas viejas de grid
