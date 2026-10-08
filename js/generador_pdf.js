@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    GENERADOR DE PDF — jsPDF + autoTable
+   Con nuevo diseño de secciones
    ═══════════════════════════════════════════════════════════════ */
 
 async function exportarPDF() {
@@ -31,14 +32,13 @@ async function exportarPDF() {
     // HEADER — Universidad
     // ═══════════════════════════════════════════════════════
     doc.setFillColor(26, 58, 107);
-    doc.rect(0, 0, 210, 32, 'F');
+    doc.rect(0, 0, 210, 30, 'F');
 
-    // Decoración
     doc.setFillColor(240, 180, 41);
     doc.rect(0, 30, 210, 2, 'F');
 
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(15);
+    doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
     doc.text('UNIVERSIDAD MAYOR DE SAN ANDRÉS', 105, 11, { align: 'center' });
 
@@ -51,9 +51,10 @@ async function exportarPDF() {
     doc.text('CONVALIDACIÓN DE MATERIAS 1998 → 2023 AJUSTADO', 105, 24, { align: 'center' });
 
     // ═══════════════════════════════════════════════════════
-    // DATOS DEL ESTUDIANTE — Cuadro
+    // SECCIÓN 0 — DATOS DEL ESTUDIANTE (SIMPLIFICADO)
     // ═══════════════════════════════════════════════════════
     let y = 42;
+
     doc.setTextColor(26, 58, 107);
     doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
@@ -68,10 +69,11 @@ async function exportarPDF() {
 
     // Cuadro de datos con fondo
     doc.setFillColor(244, 246, 249);
-    doc.roundedRect(14, y - 4, 182, 32, 2, 2, 'F');
+    doc.roundedRect(14, y - 4, 182, 24, 2, 2, 'F');
 
-    doc.setFontSize(9);
+    doc.setFontSize(10);
     doc.setTextColor(33, 37, 41);
+
     doc.setFont('helvetica', 'bold');
     doc.text('Nombre:', 18, y + 2);
     doc.setFont('helvetica', 'normal');
@@ -88,33 +90,76 @@ async function exportarPDF() {
     doc.text(est.ru || '—', 125, y + 8);
 
     doc.setFont('helvetica', 'bold');
-    doc.text('Mención 1998:', 18, y + 14);
+    doc.text('Mención destino:', 18, y + 14);
     doc.setFont('helvetica', 'normal');
-    doc.text(est.mencion1998 || '—', 50, y + 14);
+    doc.text(est.mencion2023aj || '—', 55, y + 14);
 
-    doc.setFont('helvetica', 'bold');
-    doc.text('Mención destino:', 18, y + 20);
-    doc.setFont('helvetica', 'normal');
-    doc.text(est.mencion2023aj || '—', 50, y + 20);
-
-    doc.setFont('helvetica', 'bold');
-    doc.text('¿Aprobó Cálculo IV?:', 110, y + 14);
-    doc.setFont('helvetica', 'normal');
-    doc.text(est.aproboCalculoIV ? 'SÍ' : 'NO', 155, y + 14);
-
-    y += 36;
+    y += 30;
 
     // ═══════════════════════════════════════════════════════
-    // SEPARAR CONVALIDACIONES POR PLAN
+    // SEPARAR MATERIAS POR ORIGEN
     // ═══════════════════════════════════════════════════════
     const convalidadas1998 = resultado.convalidadas.filter(m => m.planOrigen === '1998');
     const convalidadas2023 = resultado.convalidadas.filter(m => m.planOrigen === '2023' || m.planOrigen === '2023 AJUSTADO');
 
     // ═══════════════════════════════════════════════════════
-    // SECCIÓN 1 — CONVALIDACIONES 1998 → 2023 AJUSTADO
+    // SECCIÓN 1 — CONVALIDACIONES 1998 → 2023 (2 columnas)
     // ═══════════════════════════════════════════════════════
     if (convalidadas1998.length > 0) {
       if (y > 240) { doc.addPage(); y = 20; }
+
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(26, 58, 107);
+      doc.text('CONVALIDACIONES 1998 → 2023', 14, y);
+
+      y += 2;
+      doc.setDrawColor(26, 58, 107);
+      doc.line(14, y, 196, y);
+
+      y += 5;
+
+      const rows1998_2023 = convalidadas1998.map(m => {
+        const origen = `${m.codigoOrigen}\n${m.nombreOrigen}\n(${m.planOrigen}, ${m.gestion})`;
+        const intermedio = `${m.cod2023 || '—'}\n${m.nom2023 || '—'}`;
+        return [origen, intermedio];
+      });
+
+      doc.autoTable({
+        startY: y,
+        head: [['PÉNSUM 1998', 'PÉNSUM 2023']],
+        body: rows1998_2023,
+        theme: 'grid',
+        styles: {
+          fontSize: 8,
+          cellPadding: 3,
+          valign: 'middle',
+          lineColor: [222, 226, 230],
+          lineWidth: 0.2,
+        },
+        headStyles: {
+          fillColor: [26, 58, 107],
+          textColor: [255, 255, 255],
+          fontSize: 10,
+          fontStyle: 'bold',
+          halign: 'center',
+        },
+        columnStyles: {
+          0: { cellWidth: 90, fillColor: [232, 244, 252] },
+          1: { cellWidth: 92, fillColor: [240, 240, 240] },
+        },
+        alternateRowStyles: { fillColor: [250, 250, 250] },
+        margin: { left: 14, right: 14 },
+      });
+
+      y = doc.lastAutoTable.finalY + 12;
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // SECCIÓN 2 — CONVALIDACIONES 1998 → 2023 AJUSTADO (3 columnas)
+    // ═══════════════════════════════════════════════════════
+    if (convalidadas1998.length > 0) {
+      if (y > 230) { doc.addPage(); y = 20; }
 
       doc.setFontSize(12);
       doc.setFont('helvetica', 'bold');
@@ -127,23 +172,20 @@ async function exportarPDF() {
 
       y += 5;
 
-      const rows1998 = convalidadas1998.map(m => {
+      const rows1998_2023aj = convalidadas1998.map(m => {
         const origen = `${m.codigoOrigen}\n${m.nombreOrigen}\n(${m.planOrigen}, ${m.gestion})`;
-
         let intermedio = '—';
         if (m.cod2023) {
           intermedio = `${m.cod2023}\n${m.nom2023}`;
         }
-
         const final = `${m.codigoDestino}\n${m.nombreDestino}\n[OK] Convalidada`;
-
         return [origen, intermedio, final];
       });
 
       doc.autoTable({
         startY: y,
         head: [['PÉNSUM 1998', 'PÉNSUM 2023', '2023 AJUSTADO']],
-        body: rows1998,
+        body: rows1998_2023aj,
         theme: 'grid',
         styles: {
           fontSize: 7.5,
@@ -172,7 +214,7 @@ async function exportarPDF() {
     }
 
     // ═══════════════════════════════════════════════════════
-    // SECCIÓN 2 — CONVALIDACIONES 2023 → 2023 AJUSTADO
+    // SECCIÓN 3 — CONVALIDACIONES 2023 → 2023 AJUSTADO (2 columnas)
     // ═══════════════════════════════════════════════════════
     if (convalidadas2023.length > 0) {
       if (y > 230) { doc.addPage(); y = 20; }
@@ -201,7 +243,7 @@ async function exportarPDF() {
         theme: 'grid',
         styles: {
           fontSize: 8,
-          cellPadding: 2.5,
+          cellPadding: 3,
           valign: 'middle',
           lineColor: [222, 226, 230],
           lineWidth: 0.2,
@@ -209,7 +251,7 @@ async function exportarPDF() {
         headStyles: {
           fillColor: [39, 174, 96],
           textColor: [255, 255, 255],
-          fontSize: 9,
+          fontSize: 10,
           fontStyle: 'bold',
           halign: 'center',
         },
@@ -225,7 +267,7 @@ async function exportarPDF() {
     }
 
     // ═══════════════════════════════════════════════════════
-    // SECCIÓN 3 — ELECTIVAS ASIGNADAS
+    // SECCIÓN 4 — ELECTIVAS ASIGNADAS
     // ═══════════════════════════════════════════════════════
     const todasElectivas = [
       ...(resultado.electivas || []),
@@ -257,10 +299,7 @@ async function exportarPDF() {
         startY: y,
         head: [['Código', 'Nombre', 'Origen', 'Regla']],
         body: todasElectivas.map(e => [
-          e.codigo,
-          e.nombre,
-          e.origen,
-          e.regla || '64h → 32h'
+          e.codigo, e.nombre, e.origen, e.regla || '64h → 32h'
         ]),
         theme: 'grid',
         styles: {
@@ -289,7 +328,7 @@ async function exportarPDF() {
     }
 
     // ═══════════════════════════════════════════════════════
-    // SECCIÓN 4 — DUPLICADAS
+    // SECCIÓN 5 — MATERIAS DUPLICADAS
     // ═══════════════════════════════════════════════════════
     if (resultado.duplicadas.length > 0) {
       if (y > 230) { doc.addPage(); y = 20; }
@@ -335,7 +374,7 @@ async function exportarPDF() {
     }
 
     // ═══════════════════════════════════════════════════════
-    // SECCIÓN 5 — RESUMEN
+    // SECCIÓN 6 — RESUMEN
     // ═══════════════════════════════════════════════════════
     if (y > 240) { doc.addPage(); y = 20; }
 

@@ -8,19 +8,28 @@
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       HEADER GLOBAL
+      <!-- ═══════════════════════════════════════════════════════════
+       HEADER GLOBAL CON LOGOS
        ═══════════════════════════════════════════════════════════ -->
   <header class="header-umsa">
     <div class="header-content">
-      <div class="header-logo">🏛️</div>
+      
+      <!-- Logo UMSA (izquierda) -->
+      <div class="header-logo-box">
+        <img src="logos/UMSA.png" alt="UMSA" class="logo-header">
+      </div>
+      
+      <!-- Texto central -->
       <div class="header-text">
         <h1>UNIVERSIDAD MAYOR DE SAN ANDRÉS</h1>
         <p>Facultad de Ciencias Puras y Naturales — Carrera de Informática</p>
       </div>
-      <div class="header-badge">
-        <span>Sistema v3.0</span>
+      
+      <!-- Logo Kardex (derecha) -->
+      <div class="header-logo-box">
+        <img src="logos/ki.jpg" alt="Kardex Informática" class="logo-header">
       </div>
+      
     </div>
   </header>
 
@@ -46,31 +55,139 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════════
-       VISTA 0 — INICIO
+      <!-- ═══════════════════════════════════════════════════════════
+       VISTA 0 — INICIO (REDISEÑO v3)
        ═══════════════════════════════════════════════════════════ -->
   <section class="vista activa" id="vista-inicio">
     <div class="container">
-      <div class="card card-hero">
-        <h2>SISTEMA DE CONVALIDACIONES 1998 → 2023</h2>
-        <p class="subtitulo">Convierte tus materias aprobadas al plan 2023 Ajustado</p>
 
-        <div class="beneficios">
-          <div class="beneficio">✅ Conoce qué materias te convalidan</div>
-          <div class="beneficio">🎁 Descubre tus electivas asignadas</div>
-          <div class="beneficio">📄 Genera tu PDF y Excel oficial</div>
-        </div>
+      <!-- ═══════════════════════════════════════════════════════
+           HERO PRINCIPAL — 2 COLUMNAS
+           ═══════════════════════════════════════════════════════ -->
+      <div class="hero-v3">
+        
+        <!-- Columna izquierda: contenido -->
+        <div class="hero-v3-izq">
+          
+          <!-- Badge -->
+          <div class="hero-v3-badge">
+            <span class="hero-v3-badge-dot"></span>
+            Sistema Oficial UMSA v3.0
+          </div>
 
-        <div class="inicio-botones">
-          <button class="btn-primario btn-grande" onclick="navegar('vista-datos')">
-            🚀 COMENZAR CONVALIDACIÓN
+          <!-- Título -->
+          <h1 class="hero-v3-titulo">
+            Sistema de<br>
+            <span class="hero-v3-titulo-destaque">Convalidaciones</span>
+          </h1>
+
+          <!-- Años -->
+          <div class="hero-v3-anios">
+            <span class="hero-v3-anio-viejo">1998</span>
+            <span class="hero-v3-anio-flecha">→</span>
+            <span class="hero-v3-anio-nuevo">2023</span>
+          </div>
+
+          <!-- Subtítulo -->
+          <p class="hero-v3-subtitulo">
+            Convierte tus materias aprobadas al plan <strong>2023 Ajustado</strong> 
+            de forma automática y sin errores.
+          </p>
+
+          <!-- Beneficios en línea -->
+          <div class="hero-v3-beneficios">
+            <div class="hero-v3-beneficio">
+              <span class="hero-v3-beneficio-check">✅</span>
+              <span>Conoce tus convalidaciones</span>
+            </div>
+            <div class="hero-v3-beneficio">
+              <span class="hero-v3-beneficio-check">🎁</span>
+              <span>Descubre tus electivas</span>
+            </div>
+            <div class="hero-v3-beneficio">
+              <span class="hero-v3-beneficio-check">📄</span>
+              <span>Genera tu PDF y Excel</span>
+            </div>
+          </div>
+
+          <!-- Botón CTA -->
+          <button class="hero-v3-btn" onclick="navegar('vista-datos')">
+            <span class="hero-v3-btn-icono">🚀</span>
+            <span class="hero-v3-btn-texto">COMENZAR CONVALIDACIÓN</span>
+            <span class="hero-v3-btn-flecha">→</span>
           </button>
+
+          <!-- Nota -->
+          <p class="hero-v3-nota">
+            ⏱️ El proceso toma aproximadamente <strong>2 minutos</strong>
+          </p>
+
         </div>
 
-        <p class="inicio-nota">
-          ⏱️ El proceso toma aproximadamente 2 minutos
-        </p>
+        <!-- Columna derecha: visual -->
+        <div class="hero-v3-der">
+          
+          <!-- Card flotante 1 -->
+          <div class="hero-v3-card hero-v3-card-1">
+            <div class="hero-v3-card-icono">🎓</div>
+            <div class="hero-v3-card-info">
+              <strong>7 Menciones</strong>
+              <span>Disponibles</span>
+            </div>
+          </div>
+
+          <!-- Card central grande -->
+          <div class="hero-v3-card-central">
+            <div class="hero-v3-card-central-icono">📋</div>
+            <div class="hero-v3-card-central-titulo">
+              Convalidación
+            </div>
+            <div class="hero-v3-card-central-subtitulo">
+              automática
+            </div>
+            <div class="hero-v3-card-central-lineas">
+              <div class="hero-v3-linea"></div>
+              <div class="hero-v3-linea"></div>
+              <div class="hero-v3-linea hero-v3-linea-corta"></div>
+            </div>
+          </div>
+
+          <!-- Card flotante 2 -->
+          <div class="hero-v3-card hero-v3-card-2">
+            <div class="hero-v3-card-icono">📊</div>
+            <div class="hero-v3-card-info">
+              <strong>PDF + Excel</strong>
+              <span>Descarga</span>
+            </div>
+          </div>
+
+        </div>
+
       </div>
+
+      <!-- ═══════════════════════════════════════════════════════
+           INFO CARDS (debajo del hero)
+           ═══════════════════════════════════════════════════════ -->
+      <div class="info-cards">
+        <div class="info-card" data-step="01">
+          <div class="info-card-icono">📤</div>
+          <h3>Sube tu PDF</h3>
+          <p>Escanea tu historial académico y el sistema detecta automáticamente tus materias aprobadas</p>
+        </div>
+
+        <div class="info-card" data-step="02">
+          <div class="info-card-icono">✋</div>
+          <h3>O marca manual</h3>
+          <p>Si prefieres, marca una por una las materias que aprobaste y elige su gestión</p>
+        </div>
+
+        <div class="info-card" data-step="03">
+          <div class="info-card-icono">📊</div>
+          <h3>Resultado inmediato</h3>
+          <p>Obtén tu convalidación completa en PDF y Excel lista para presentar en Kardex</p>
+        </div>
+      </div>
+
     </div>
   </section>
 
