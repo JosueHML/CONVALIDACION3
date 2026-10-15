@@ -460,3 +460,30 @@ async function exportarPDF() {
     alert("⚠️ Error al generar el PDF. Verifica la consola (F12).");
   }
 }
+
+/*
+async function exportarPDF() {
+  // 1. Generar PDF
+  const pdf = generarPDF(resultado);
+
+  // 2. Guardar en el microservicio
+  try {
+    await ConvalidacionesAPI.guardar({
+      nombre: est.nombre,
+      id_origen: 'plan_1998',      // ← ID origen
+      id_destino: 'plan_2023aj',   // ← ID destino
+      mencion_destino: est.mencion2023aj,
+      resultado: resultado
+    });
+    console.log('✅ Convalidación guardada');
+  } catch (error) {
+    console.warn('⚠️ No se pudo guardar:', error);
+  }
+
+  // 3. Descargar
+  pdf.save();
+
+  // 4. Marcar como impreso
+  await ConvalidacionesAPI.marcarImpreso(convalidacionId);
+}
+*/

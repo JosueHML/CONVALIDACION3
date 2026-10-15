@@ -5,7 +5,7 @@
 let vistaActual = 'vista-inicio';
 let flujoActual = 'manual'; // 'manual' o 'pdf'
 
-/* ─── Navegar entre vistas ───────────────────────────────────── */
+/* ─── Navegar entre vistas (SIN PROTECCIÓN DE LOGIN) ─────────── */
 function navegar(idVista) {
   // Ocultar todas las vistas
   document.querySelectorAll('.vista').forEach(v => v.classList.remove('activa'));
@@ -35,9 +35,6 @@ function navegar(idVista) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   INICIAR SISTEMA — Pregunta cómo quiere empezar
-   ═══════════════════════════════════════════════════════════════ */
-/* ═══════════════════════════════════════════════════════════════
    VALIDAR Y CONTINUAR SEGÚN EL BOTÓN ELEGIDO
    ═══════════════════════════════════════════════════════════════ */
 
@@ -59,7 +56,6 @@ function validarYContinuarManual() {
 
 /* ─── Botón CONTINUAR (el de siempre) ────────────────────────── */
 function validarYContinuar() {
-  // Si no se eligió flujo, por defecto va a manual
   if (!flujoActual || flujoActual === 'manual') {
     validarYContinuarManual();
   } else {
@@ -68,8 +64,7 @@ function validarYContinuar() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   VALIDAR DATOS DEL ESTUDIANTE (compartida)
-   Retorna true si todo está OK, false si hay errores
+   VALIDAR DATOS DEL ESTUDIANTE
    ═══════════════════════════════════════════════════════════════ */
 function validarDatosEstudiante() {
   const nombre = document.getElementById('nombre').value.trim();
@@ -78,7 +73,6 @@ function validarDatosEstudiante() {
   const gestionIngreso = document.getElementById('gestionIngreso').value;
   const mencionDestino = document.getElementById('mencionDestino').value;
 
-  // Validaciones
   if (!nombre) {
     alert("⚠️ Ingresa tu nombre completo.");
     document.getElementById('nombre').focus();
@@ -105,7 +99,6 @@ function validarDatosEstudiante() {
     return false;
   }
 
-  // Guardar datos
   ESTUDIANTE_MOCK.nombre = nombre.toUpperCase();
   ESTUDIANTE_MOCK.cedula = cedula;
   ESTUDIANTE_MOCK.ru = ru;
@@ -133,7 +126,9 @@ function iniciarFlujoManual() {
   navegar('vista-datos');
 }
 
-/* ─── Actualizar barra de progreso ───────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════
+   ACTUALIZAR BARRA DE PROGRESO
+   ═══════════════════════════════════════════════════════════════ */
 function actualizarProgreso(idVista) {
   const pasos = document.querySelectorAll('.progress-step');
   pasos.forEach(p => p.classList.remove('activo', 'completado'));
@@ -156,7 +151,7 @@ function actualizarProgreso(idVista) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   CARGAR GESTIONES EN LOS SELECTS (BLOQUE 1998 Y 2023)
+   CARGAR GESTIONES EN LOS SELECTS
    ═══════════════════════════════════════════════════════════════ */
 function cargarGestionesEnSelects() {
   const select1998 = document.getElementById('gestion1998');
@@ -164,19 +159,16 @@ function cargarGestionesEnSelects() {
 
   if (!select1998 || !select2023) return;
 
-  // Plan 1998: desde 1998 hasta 2026 (permitir todas las gestiones)
   const gestiones1998 = GESTIONES_DISPONIBLES.filter(g => {
     const anio = parseInt(g.split(" ")[0]);
     return anio >= 1998 && anio <= 2026;
   });
 
-  // Plan 2023: desde 2023 hasta 2026
   const gestiones2023 = GESTIONES_DISPONIBLES.filter(g => {
     const anio = parseInt(g.split(" ")[0]);
     return anio >= 2023 && anio <= 2026;
   });
 
-  // Guardar valor actual para no perder la selección
   const valorActual1998 = select1998.value;
   const valorActual2023 = select2023.value;
 
@@ -186,19 +178,17 @@ function cargarGestionesEnSelects() {
   select2023.innerHTML = '<option value="">— Selecciona gestión —</option>' +
     gestiones2023.map(g => `<option value="${g}">${g}</option>`).join('');
 
-  // Restaurar selección previa si existía
   if (valorActual1998) select1998.value = valorActual1998;
   if (valorActual2023) select2023.value = valorActual2023;
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   CARGAR GESTIONES DE INGRESO (1998 → 2026)
+   CARGAR GESTIONES DE INGRESO
    ═══════════════════════════════════════════════════════════════ */
 function cargarGestionesIngreso() {
   const sel = document.getElementById('gestionIngreso');
   if (!sel) return;
 
-  // Todas las gestiones desde 1998 hasta 2026
   const gestiones = GESTIONES_DISPONIBLES.filter(g => {
     const anio = parseInt(g.split(" ")[0]);
     return anio >= 1998 && anio <= 2026;
@@ -209,76 +199,9 @@ function cargarGestionesIngreso() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   VALIDAR DATOS Y CONTINUAR
-   ═══════════════════════════════════════════════════════════════ */
-function validarYContinuar() {
-  const nombre = document.getElementById('nombre').value.trim();
-  const cedula = document.getElementById('cedula').value.trim();
-  const ru = document.getElementById('ru').value.trim();
-  const gestionIngreso = document.getElementById('gestionIngreso').value;
-  const mencionDestino = document.getElementById('mencionDestino').value;
-
-  // ═══════════════════════════════════════════════════════════
-  // VALIDACIONES
-  // ═══════════════════════════════════════════════════════════
-  if (!nombre) {
-    alert("⚠️ Ingresa tu nombre completo.");
-    document.getElementById('nombre').focus();
-    return;
-  }
-  if (!cedula) {
-    alert("⚠️ Ingresa tu cédula de identidad.");
-    document.getElementById('cedula').focus();
-    return;
-  }
-  if (!ru) {
-    alert("⚠️ Ingresa tu RU.");
-    document.getElementById('ru').focus();
-    return;
-  }
-  if (!gestionIngreso) {
-    alert("⚠️ Selecciona tu gestión de ingreso.");
-    document.getElementById('gestionIngreso').focus();
-    return;
-  }
-  if (!mencionDestino) {
-    alert("⚠️ Selecciona la mención a la que deseas migrar.");
-    document.getElementById('mencionDestino').focus();
-    return;
-  }
-
-  // ═══════════════════════════════════════════════════════════
-  // GUARDAR DATOS
-  // ═══════════════════════════════════════════════════════════
-  ESTUDIANTE_MOCK.nombre = nombre.toUpperCase();
-  ESTUDIANTE_MOCK.cedula = cedula;
-  ESTUDIANTE_MOCK.ru = ru;
-  ESTUDIANTE_MOCK.gestionIngreso = gestionIngreso;
-  ESTUDIANTE_MOCK.anioIngreso = gestionIngreso.split(' ')[0];
-
-  // ═══════════════════════════════════════════════════════════
-  // MENCIÓN 1998 — SIEMPRE CIENCIAS DE LA COMPUTACION
-  // (no hay restricción ni mención alternativa en el 1998)
-  // ═══════════════════════════════════════════════════════════
-  ESTUDIANTE_MOCK.mencion1998 = 'CIENCIAS DE LA COMPUTACION';
-  ESTUDIANTE_MOCK.mencion2023aj = mencionDestino;
-  ESTUDIANTE_MOCK.aproboCalculoIV = false;
-
-  localStorage.setItem('estudiante', JSON.stringify(ESTUDIANTE_MOCK));
-
-  // ═══════════════════════════════════════════════════════════
-  // DECIDIR A DÓNDE IR SEGÚN EL FLUJO
-  // ═══════════════════════════════════════════════════════════
-  if (flujoActual === 'pdf') {
-    navegar('vista-lector');
-  } else {
-    navegar('vista-marcar');
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════
    INICIALIZACIÓN
    ═══════════════════════════════════════════════════════════════ */
+
 window.addEventListener('load', async () => {
   // 1. Cargar todos los JSON
   const ok = await cargarTodosLosDatos();
@@ -287,16 +210,19 @@ window.addEventListener('load', async () => {
     return;
   }
 
-  // 2. Cargar gestiones en los selects de los bloques
+  // 2. Ir directo a la vista de inicio
+  navegar('vista-inicio');
+
+  // 3. Cargar gestiones en los selects de los bloques
   cargarGestionesEnSelects();
 
-  // 3. Cargar gestiones de ingreso
+  // 4. Cargar gestiones de ingreso
   cargarGestionesIngreso();
 
-  // 4. Inicializar el lector de PDF
+  // 5. Inicializar el lector de PDF
   inicializarLector();
 
-  // 5. Inicializar los 2 buscadores (si existen)
+  // 6. Inicializar los 2 buscadores (si existen)
   const buscador1998 = document.getElementById('buscador1998');
   if (buscador1998) {
     buscador1998.addEventListener('input', (e) => {
@@ -311,11 +237,11 @@ window.addEventListener('load', async () => {
     });
   }
 
-  // 6. Inicializar el autocomplete de agregar materia manual
+  // 7. Inicializar el autocomplete de agregar materia manual
   const nuevaPlan = document.getElementById('nuevaPlan');
   if (nuevaPlan) {
     nuevaPlan.addEventListener('change', actualizarGestionesNuevaMateria);
   }
 
-  console.log('✅ Sistema listo');
+  console.log('✅ Sistema listo (sin login)');
 });

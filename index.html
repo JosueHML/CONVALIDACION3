@@ -8,29 +8,31 @@
 </head>
 <body>
 
-      <!-- ═══════════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════════
        HEADER GLOBAL CON LOGOS
        ═══════════════════════════════════════════════════════════ -->
   <header class="header-umsa">
     <div class="header-content">
       
-      <!-- Logo UMSA (izquierda) -->
       <div class="header-logo-box">
         <img src="logos/UMSA.png" alt="UMSA" class="logo-header">
       </div>
       
-      <!-- Texto central -->
       <div class="header-text">
         <h1>UNIVERSIDAD MAYOR DE SAN ANDRÉS</h1>
         <p>Facultad de Ciencias Puras y Naturales — Carrera de Informática</p>
       </div>
       
-      <!-- Logo Kardex (derecha) -->
       <div class="header-logo-box">
         <img src="logos/ki.jpg" alt="Kardex Informática" class="logo-header">
       </div>
       
     </div>
+          <div class="header-logo-box">
+        <img src="logos/ki.jpg" alt="Kardex Informática" class="logo-header">
+      </div>
+
+      
   </header>
 
   <!-- ═══════════════════════════════════════════════════════════
@@ -55,46 +57,37 @@
     </div>
   </div>
 
-      <!-- ═══════════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════════
        VISTA 0 — INICIO (REDISEÑO v3)
        ═══════════════════════════════════════════════════════════ -->
   <section class="vista activa" id="vista-inicio">
     <div class="container">
 
-      <!-- ═══════════════════════════════════════════════════════
-           HERO PRINCIPAL — 2 COLUMNAS
-           ═══════════════════════════════════════════════════════ -->
       <div class="hero-v3">
         
-        <!-- Columna izquierda: contenido -->
         <div class="hero-v3-izq">
           
-          <!-- Badge -->
           <div class="hero-v3-badge">
             <span class="hero-v3-badge-dot"></span>
-            Sistema Oficial UMSA v3.0
+            Formulario Kardex UMSA 
           </div>
 
-          <!-- Título -->
           <h1 class="hero-v3-titulo">
-            Sistema de<br>
+            Formulario de<br>
             <span class="hero-v3-titulo-destaque">Convalidaciones</span>
           </h1>
 
-          <!-- Años -->
           <div class="hero-v3-anios">
             <span class="hero-v3-anio-viejo">1998</span>
             <span class="hero-v3-anio-flecha">→</span>
             <span class="hero-v3-anio-nuevo">2023</span>
           </div>
 
-          <!-- Subtítulo -->
           <p class="hero-v3-subtitulo">
             Convierte tus materias aprobadas al plan <strong>2023 Ajustado</strong> 
             de forma automática y sin errores.
           </p>
 
-          <!-- Beneficios en línea -->
           <div class="hero-v3-beneficios">
             <div class="hero-v3-beneficio">
               <span class="hero-v3-beneficio-check">✅</span>
@@ -110,24 +103,20 @@
             </div>
           </div>
 
-          <!-- Botón CTA -->
           <button class="hero-v3-btn" onclick="navegar('vista-datos')">
             <span class="hero-v3-btn-icono">🚀</span>
             <span class="hero-v3-btn-texto">COMENZAR CONVALIDACIÓN</span>
             <span class="hero-v3-btn-flecha">→</span>
           </button>
 
-          <!-- Nota -->
           <p class="hero-v3-nota">
             ⏱️ El proceso toma aproximadamente <strong>2 minutos</strong>
           </p>
 
         </div>
 
-        <!-- Columna derecha: visual -->
         <div class="hero-v3-der">
           
-          <!-- Card flotante 1 -->
           <div class="hero-v3-card hero-v3-card-1">
             <div class="hero-v3-card-icono">🎓</div>
             <div class="hero-v3-card-info">
@@ -136,7 +125,6 @@
             </div>
           </div>
 
-          <!-- Card central grande -->
           <div class="hero-v3-card-central">
             <div class="hero-v3-card-central-icono">📋</div>
             <div class="hero-v3-card-central-titulo">
@@ -152,7 +140,6 @@
             </div>
           </div>
 
-          <!-- Card flotante 2 -->
           <div class="hero-v3-card hero-v3-card-2">
             <div class="hero-v3-card-icono">📊</div>
             <div class="hero-v3-card-info">
@@ -165,9 +152,6 @@
 
       </div>
 
-      <!-- ═══════════════════════════════════════════════════════
-           INFO CARDS (debajo del hero)
-           ═══════════════════════════════════════════════════════ -->
       <div class="info-cards">
         <div class="info-card" data-step="01">
           <div class="info-card-icono">📤</div>
@@ -242,7 +226,6 @@
           </div>
         </div>
 
-      
         <div class="card-footer">
           <button class="btn-secundario" onclick="validarYContinuarPDF()">
             📤 SUBIR PDF
@@ -250,7 +233,6 @@
           <button class="btn-secundario" onclick="validarYContinuarManual()">
             ✋ LLENAR FORMA MANUAL
           </button>
-          
         </div>
       </div>
     </div>
@@ -300,7 +282,6 @@
         </div>
 
         <div class="card-footer">
-          
           <button class="btn-primario" id="btnProcesarPDF" disabled onclick="procesarPDF()">
             ▶ PROCESAR PDF
           </button>
@@ -326,7 +307,6 @@
 
         <div id="tablaDetectadas"></div>
 
-        <!-- AGREGAR MATERIA MANUAL -->
         <div class="agregar-materia-manual">
           <div class="manual-header">
             <div class="manual-icono">➕</div>
@@ -557,6 +537,19 @@
     }
   </script>
 
+       
+
+    <!-- Librerías externas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    if (typeof pdfjsLib !== 'undefined') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+  </script>
+
   <!-- Scripts propios -->
   <script src="js/cargador.js"></script>
   <script src="js/datos_mock.js"></script>
@@ -566,6 +559,5 @@
   <script src="js/generador_pdf.js"></script>
   <script src="js/generador_excel.js"></script>
   <script src="js/app.js"></script>
-
 </body>
 </html>
