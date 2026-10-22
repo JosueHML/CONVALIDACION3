@@ -12,8 +12,41 @@ function renderizarBloquesPlanes() {
     return;
   }
 
-  renderizarBloque('materias1998', plan98.materias, '1998');
-  renderizarBloque('materias2023', plan23.materias, '2023');
+  // ═══════════════════════════════════════════════════════════
+  // PLAN 1998: las materias están directamente en plan98.materias
+  // ═══════════════════════════════════════════════════════════
+  const materias98 = plan98.materias || [];
+  renderizarBloque('materias1998', materias98, '1998');
+
+  // ═══════════════════════════════════════════════════════════
+  // PLAN 2023: las materias están dentro de menciones
+  // Usamos la mención del estudiante para obtener las materias
+  // ═══════════════════════════════════════════════════════════
+  let materias23 = [];
+
+  // Opción 1: verificar si tiene materias directas
+  if (plan23.materias && Array.isArray(plan23.materias)) {
+    materias23 = plan23.materias;
+  }
+  
+  // Opción 2: buscar dentro de menciones
+  else if (plan23.menciones) {
+    const est = JSON.parse(localStorage.getItem('estudiante') || '{}');
+    const mencion = est.mencion2023aj || 'CIENCIAS DE LA COMPUTACION';
+    
+    if (plan23.menciones[mencion]?.materias) {
+      materias23 = plan23.menciones[mencion].materias;
+    } else {
+      // Fallback: usar la primera mención
+      const primeraMencion = Object.values(plan23.menciones)[0];
+      materias23 = primeraMencion?.materias || [];
+    }
+  }
+
+  console.log(`📚 Plan 1998: ${materias98.length} materias`);
+  console.log(`📚 Plan 2023: ${materias23.length} materias`);
+
+  renderizarBloque('materias2023', materias23, '2023');
 }
 
 function renderizarBloque(contenedorId, materias, plan) {
