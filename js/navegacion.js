@@ -197,6 +197,21 @@ function cargarGestionesIngreso() {
   sel.innerHTML = '<option value="">— Selecciona tu gestión de ingreso —</option>' +
     gestiones.map(g => `<option value="${g}">${g}</option>`).join('');
 }
+// ESTA FUNCIÓN SOLO SE LLAMA SI EL USUARIO HACE CLIC EN EL BOTÓN ROJO
+function limpiarMarcas() {
+  document.querySelectorAll('.materia-row-check').forEach(fila => {
+    fila.classList.remove('marcada');
+    const chk = fila.querySelector('input[type="checkbox"]');
+    const sel = fila.querySelector('select');
+    if (chk) chk.checked = false;
+    if (sel) {
+      sel.value = '';
+      sel.disabled = true;
+    }
+  });
+  materiasMarcadas = [];
+  localStorage.removeItem('materiasMarcadas'); // Limpiar memoria
+}
 
 /* ═══════════════════════════════════════════════════════════════
    INICIALIZACIÓN

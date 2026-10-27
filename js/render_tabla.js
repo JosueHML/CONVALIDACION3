@@ -13,49 +13,40 @@ function renderizarBloquesPlanes() {
   }
 
   // ═══════════════════════════════════════════════════════════
-  // PLAN 1998: las materias están directamente en plan98.materias
+  // Cargar materias marcadas previamente (si existen)
   // ═══════════════════════════════════════════════════════════
+  const materiasGuardadas = JSON.parse(localStorage.getItem('materiasMarcadas') || '[]');
+
+  // Plan 1998
   const materias98 = plan98.materias || [];
-  renderizarBloque('materias1998', materias98, '1998');
+  renderizarBloque('materias1998', materias98, '1998', materiasGuardadas);
 
-  // ═══════════════════════════════════════════════════════════
-  // PLAN 2023: las materias están dentro de menciones
-  // Usamos la mención del estudiante para obtener las materias
-  // ═══════════════════════════════════════════════════════════
+  // Plan 2023
   let materias23 = [];
-
-  // Opción 1: verificar si tiene materias directas
   if (plan23.materias && Array.isArray(plan23.materias)) {
     materias23 = plan23.materias;
-  }
-  
-  // Opción 2: buscar dentro de menciones
-  else if (plan23.menciones) {
+  } else if (plan23.menciones) {
     const est = JSON.parse(localStorage.getItem('estudiante') || '{}');
     const mencion = est.mencion2023aj || 'CIENCIAS DE LA COMPUTACION';
-    
     if (plan23.menciones[mencion]?.materias) {
       materias23 = plan23.menciones[mencion].materias;
     } else {
-      // Fallback: usar la primera mención
       const primeraMencion = Object.values(plan23.menciones)[0];
       materias23 = primeraMencion?.materias || [];
     }
   }
 
-  console.log(`📚 Plan 1998: ${materias98.length} materias`);
-  console.log(`📚 Plan 2023: ${materias23.length} materias`);
-
-  renderizarBloque('materias2023', materias23, '2023');
+  renderizarBloque('materias2023', materias23, '2023', materiasGuardadas);
 }
 
-function renderizarBloque(contenedorId, materias, plan) {
+/* ─── Renderizar un bloque específico con memoria ────────────── */
+function renderizarBloque(contenedorId, materias, plan, materiasGuardadas = []) {
   const contenedor = document.getElementById(contenedorId);
   if (!contenedor) return;
 
   const gestiones = GESTIONES_DISPONIBLES.filter(g => {
     const anio = parseInt(g.split(" ")[0]);
-    if (plan === '1998') return anio >= 1998 && anio < 2026;
+    if (plan === '1998') return anio >= 1998 && anio <= 2026;
     return anio >= 2023 && anio <= 2026;
   });
 
@@ -63,26 +54,56 @@ function renderizarBloque(contenedorId, materias, plan) {
     `<option value="${g}">${g}</option>`
   ).join('');
 
-  contenedor.innerHTML = materias.map(m => `
-    <div class="materia-row-check" data-codigo="${m.codigo}" data-plan="${plan}">
-      <input type="checkbox"
-             data-codigo="${m.codigo}"
-             data-nombre="${m.nombre}"
-             data-plan="${plan}"
-             onchange="toggleMateria(this)">
-      <span class="codigo">${m.codigo}</span>
-      <span class="nombre">${m.nombre}</span>
-      <select class="select-gestion" disabled
-              data-codigo="${m.codigo}"
-              data-nombre="${m.nombre}"
-              data-plan="${plan}">
-        <option value="">— Selecciona gestión —</option>
-        ${opcionesGestion}
-      </select>
-    </div>
-  `).join('');
+  contenedor.innerHTML = materias.map(m => {
+    // 🔍 Buscar si esta materia ya estaba marcada
+    const guardada = materiasGuardadas.find(
+      gm => gm.codigo === m.codigo && gm.plan === plan
+    );
+    
+    const checked = guardada ? 'checked' : '';
+    const claseMarcada = guardada ? 'marcada' : '';
+    const selectDisabled = guardada ? '' : 'disabled';
+    const selectStyle = guardada ? 'background: white; border-color: var(--primario-600);' : '';
+
+    return `
+      <div class="materia-row-check ${claseMarcada}" data-codigo="${m.codigo}" data-plan="${plan}">
+        <input type="checkbox"
+               data-codigo="${m.codigo}"
+               data-nombre="${m.nombre}"
+               data-plan="${plan}"
+               ${checked}
+               onchange="toggleMateria(this)">
+        <span class="codigo">${m.codigo}</span>
+        <span class="nombre">${m.nombre}</span>
+        <select class="select-gestion" 
+                data-codigo="${m.codigo}"
+                data-nombre="${m.nombre}"
+                data-plan="${plan}"
+                ${selectDisabled}
+                style="${selectStyle}">
+          <option value="">— Selecciona gestión —</option>
+          ${opcionesGestion}
+        </select>
+      </div>
+    `;
+  }).join('');
+
+  // ═══════════════════════════════════════════════════════════
+  // Setear el valor de las gestiones DESPUÉS de crear el HTML
+  // ═══════════════════════════════════════════════════════════
+  if (materiasGuardadas.length > 0) {
+    contenedor.querySelectorAll('.select-gestion').forEach(sel => {
+      const codigo = sel.dataset.codigo;
+      const planSelect = sel.dataset.plan;
+      const guardada = materiasGuardadas.find(gm => gm.codigo === codigo && gm.plan === planSelect);
+      if (guardada && guardada.gestion) {
+        sel.value = guardada.gestion;
+      }
+    });
+  }
 }
 
+/* ─── Toggle materia (marcar/desmarcar) ──────────────────────── */
 function toggleMateria(checkbox) {
   const fila = checkbox.closest('.materia-row-check');
   const select = fila.querySelector('.select-gestion');
@@ -91,10 +112,12 @@ function toggleMateria(checkbox) {
     fila.classList.add('marcada');
     select.disabled = false;
     select.focus();
+    select.style.background = 'white'; // Quitar el gris
   } else {
     fila.classList.remove('marcada');
     select.disabled = true;
     select.value = '';
+    select.style.background = '#f0f0f0'; // Ponerlo gris otra vez
   }
 }
 
@@ -217,9 +240,6 @@ function renderizarResultado() {
 
   renderizarSemestres(resultado.convalidadas);
 
-  // ═══════════════════════════════════════════════════════════
-  // ELECTIVAS — Unir 64h→32h + 1998 elegidas
-  // ═══════════════════════════════════════════════════════════
   const todasElectivas = [
     ...(resultado.electivas || []),
     ...(resultado.electivas1998 || [])
