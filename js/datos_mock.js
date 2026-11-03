@@ -11,6 +11,15 @@ function generarGestiones() {
     }
   }
 
+  // ═══════════════════════════════════════════════════════════
+  // Agregar EXÁMENES DE MESA (solo en los años que se hicieron)
+  // ═══════════════════════════════════════════════════════════
+  const aniosExamenMesa = [2020, 2021, 2025, 2026];
+  
+  aniosExamenMesa.forEach(anio => {
+    gestiones.push(`${anio} EXAMEN DE MESA`);
+  });
+
   return gestiones;
 }
 

@@ -204,10 +204,14 @@
 
           <div class="form-group">
             <label>📅 Gestión de ingreso</label>
-            <select id="gestionIngreso">
-              <option value="">— Selecciona tu gestión de ingreso —</option>
-            </select>
-            <small class="ayuda">¿En qué gestión ingresaste a la carrera?</small>
+            <input 
+              type="text" 
+              id="gestionIngreso" 
+              placeholder="Ej: 2022 PRIMERO, 2019 SEGUNDO"
+              maxlength="30"
+              autocomplete="off"
+            >
+            <small class="ayuda">Escribe el año y semestre (Ej: 2020 PRIMERO)</small>
           </div>
 
           <div class="form-group">

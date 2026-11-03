@@ -37,9 +37,9 @@ function exportarExcel() {
       ['Nombre', est.nombre || '—'],
       ['Cédula', est.cedula || '—'],
       ['RU', est.ru || '—'],
-      ['Mención 1998', est.mencion1998 || '—'],
+    //  ['Mención 1998', est.mencion1998 || '—'],
       ['Mención 2023 Ajustado', est.mencion2023aj || '—'],
-      ['¿Aprobó Cálculo IV?', est.aproboCalculoIV ? 'SÍ' : 'NO'],
+     // ['¿Aprobó Cálculo IV?', est.aproboCalculoIV ? 'SÍ' : 'NO'],
       ['Fecha de generación', new Date().toLocaleString('es-BO')],
     ];
 
@@ -72,14 +72,9 @@ function exportarExcel() {
        HOJA 2: CONVALIDACIONES
        ═══════════════════════════════════════════════════════ */
     const headersConv = [
-      'PÉNSUM 1998',
-      'Nombre 1998',
-      'Gestión',
-      'PÉNSUM 2023',
-      'Nombre 2023',
-      '2023 AJUSTADO',
-      'Nombre 2023 Aj.',
-      'Estado',
+      'PÉNSUM 1998', 'Nombre 1998', 'Gestión',
+      'PÉNSUM 2023', 'Nombre 2023',
+      '2023 AJUSTADO', 'Nombre 2023 Aj.', 'Estado',
     ];
 
     const filasConv = resultado.convalidadas.map(m => [
@@ -90,7 +85,7 @@ function exportarExcel() {
       m.nom2023 || '—',
       m.codigoDestino,
       m.nombreDestino,
-      'CONVALIDADA'
+      '✅ CONVALIDADA'
     ]);
 
     const wsConv = XLSX.utils.aoa_to_sheet([
@@ -108,11 +103,13 @@ function exportarExcel() {
     ];
 
     wsConv['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 7 } }];
-
+    
+    // Estilos (esto ayuda a que se vea mejor en LibreOffice)
     const formatoConv = {
       'A1': { bold: true, size: 14, color: 'FFFFFFFF', bg: 'FF1A3A6B', align: 'center' },
     };
 
+    // Estilo del encabezado
     for (let c = 0; c < headersConv.length; c++) {
       const col = String.fromCharCode(65 + c);
       formatoConv[`${col}3`] = {
@@ -121,9 +118,10 @@ function exportarExcel() {
       };
     }
 
+    // Estilo de las filas
     for (let r = 0; r < filasConv.length; r++) {
       const rowIdx = r + 4;
-      const bgRow = r % 2 === 0 ? 'FFFFFFFF' : 'FFF4F6F9';
+      const bgRow = r % 2 === 0 ? 'FFFFFFFF' : 'FFF4F6F9'; // Blanco y gris claro
 
       for (let c = 0; c < 8; c++) {
         const col = String.fromCharCode(65 + c);
@@ -136,20 +134,24 @@ function exportarExcel() {
           align: (c === 0 || c === 2 || c === 3 || c === 5 || c === 7) ? 'center' : 'left',
         };
 
+        // Columna A (PÉNSUM 1998) - Azul claro
         if (c === 0) {
           formato.bold = true;
           formato.color = 'FF1A3A6B';
           formato.bg = 'FFE8F4FC';
         }
+        // Columna D (PÉNSUM 2023) - Gris
         if (c === 3) {
           formato.bold = true;
           formato.color = 'FF6C757D';
         }
+        // Columna F (2023 AJUSTADO) - Verde claro
         if (c === 5) {
           formato.bold = true;
           formato.color = 'FF28A745';
           formato.bg = 'FFD4EDDA';
         }
+        // Columna H (Estado) - Verde
         if (c === 7) {
           formato.bold = true;
           formato.color = 'FF28A745';
@@ -163,6 +165,8 @@ function exportarExcel() {
 
     aplicarFormato(wsConv, formatoConv);
     XLSX.utils.book_append_sheet(workbook, wsConv, 'Convalidaciones');
+
+    
 
     /* ═══════════════════════════════════════════════════════
        HOJA 3: ELECTIVAS

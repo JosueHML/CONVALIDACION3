@@ -120,7 +120,13 @@ async function exportarPDF() {
       y += 5;
 
       const rows1998_2023 = convalidadas1998.map(m => {
-        const origen = `${m.codigoOrigen}\n${m.nombreOrigen}\n(${m.planOrigen}, ${m.gestion})`;
+      // Formatear gestión para que se vea bonito
+      let gestionTexto = m.gestion;
+      if (m.gestion.includes("EXAMEN DE MESA")) {
+        gestionTexto = m.gestion.replace("EXAMEN DE MESA", "Examen de mesa");
+      }
+
+      const origen = `${m.codigoOrigen}\n${m.nombreOrigen}\n(${m.planOrigen}, ${gestionTexto})`;  
         const intermedio = `${m.cod2023 || '—'}\n${m.nom2023 || '—'}`;
         return [origen, intermedio];
       });

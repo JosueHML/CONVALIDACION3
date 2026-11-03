@@ -1,0 +1,55 @@
+{
+  "descripcion": "Materias aprobadas en exámenes de mesa (cursos de verano/invierno)",
+  "por_anio": {
+    "2020": [
+      { "codigo": "INF-111", "nombre": "INTRODUCCION A LA INFORMATICA" },
+      { "codigo": "INF-112", "nombre": "ORGANIZACION DE COMPUTADORAS" },
+      { "codigo": "MAT-114", "nombre": "MATEMATICA DISCRETA I" },
+      { "codigo": "MAT-115", "nombre": "ANALISIS MATEMATICO I" },
+      { "codigo": "INF-121", "nombre": "ALGORITMOS Y PROGRAMACION" },
+      { "codigo": "FIS-122", "nombre": "FISICA I" },
+      { "codigo": "MAT-123", "nombre": "MATEMATICA DISCRETA II" },
+      { "codigo": "MAT-124", "nombre": "ALGEBRA LINEAL" },
+      { "codigo": "MAT-125", "nombre": "ANALISIS MATEMATICO II" },
+      { "codigo": "INF-131", "nombre": "ESTRUCTURA DE DATOS Y ALGORITMOS" },
+      { "codigo": "EST-133", "nombre": "ESTADISTICA I" },
+      { "codigo": "MAT-134", "nombre": "ANALISIS MATEMATICO III" },
+      { "codigo": "LIN-135", "nombre": "IDIOMA I" },
+      { "codigo": "INF-142", "nombre": "FUNDAMENTOS DIGITALES" },
+      { "codigo": "EST-145", "nombre": "ESTADISTICA II" },
+      { "codigo": "INF-154", "nombre": "LENGUAJES FORMALES Y AUTOMATAS" },
+      { "codigo": "EST-155", "nombre": "INVESTIGACION DE OPERACIONES I" },
+      { "codigo": "INF-164", "nombre": "TEORIA DE LA INFORMACION Y CODIFICACION" },
+      { "codigo": "EST-165", "nombre": "INVESTIGACION DE OPERACIONES II" },
+      { "codigo": "INF-273", "nombre": "TELEMATICA" },
+      { "codigo": "INF-314", "nombre": "AUDITORIA INFORMATICA" },
+      { "codigo": "INF-329", "nombre": "IDIOMAS II" },
+      { "codigo": "INF-332", "nombre": "ECONOMIA" },
+      { "codigo": "INF-333", "nombre": "PREPARACION Y EVALUACION DE PROYECTOS" }
+    ],
+    "2021": [
+      { "codigo": "INF-144", "nombre": "LOGICA PARA LA CIENCIA DE LA COMPUTACION" }
+    ],
+    "2025": [
+      { "codigo": "MAT-134", "nombre": "ANALISIS MATEMATICO III" },
+      { "codigo": "INF-142", "nombre": "FUNDAMENTOS DIGITALES" },
+      { "codigo": "INF-154", "nombre": "LENGUAJES FORMALES Y AUTOMATAS" },
+      { "codigo": "INF-164", "nombre": "TEORIA DE LA INFORMACION Y CODIFICACION" },
+      { "codigo": "EST-165", "nombre": "INVESTIGACION DE OPERACIONES II" },
+      { "codigo": "INF-166", "nombre": "INFORMATICA Y SOCIEDAD" },
+      { "codigo": "INF-271", "nombre": "TEORIA DE SISTEMAS Y MODELOS" },
+      { "codigo": "INF-273", "nombre": "TELEMATICA" },
+      { "codigo": "INF-314", "nombre": "INGLES TECNICO" },
+      { "codigo": "INF-316", "nombre": "SISTEMAS DE INFORMACION GERENCIAL I" },
+      { "codigo": "INF-319", "nombre": "PROGRAMACION FUNCIONAL" },
+      { "codigo": "INF-324", "nombre": "PROGRAMACION MULTIMEDIAL" },
+      { "codigo": "INF-351", "nombre": "SISTEMAS EXPERTOS" }
+    ],
+    "2026": [
+      { "codigo": "COM-245", "nombre": "LOGICA PARA LA CIENCIA DE LA COMPUTACION" },
+      { "codigo": "COM-261", "nombre": "LENGUAJES FORMALES Y AUTOMATAS" },
+      { "codigo": "TIC-261", "nombre": "CENTRO DE DATOS (DATA CENTER)" },
+      { "codigo": "TIC-262", "nombre": "SISTEMAS DE GESTION DE RED" }
+    ]
+  }
+}

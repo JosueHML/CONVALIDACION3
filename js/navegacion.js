@@ -185,7 +185,7 @@ function cargarGestionesEnSelects() {
 /* ═══════════════════════════════════════════════════════════════
    CARGAR GESTIONES DE INGRESO
    ═══════════════════════════════════════════════════════════════ */
-function cargarGestionesIngreso() {
+/*function cargarGestionesIngreso() {
   const sel = document.getElementById('gestionIngreso');
   if (!sel) return;
 
@@ -196,7 +196,7 @@ function cargarGestionesIngreso() {
 
   sel.innerHTML = '<option value="">— Selecciona tu gestión de ingreso —</option>' +
     gestiones.map(g => `<option value="${g}">${g}</option>`).join('');
-}
+}*/
 // ESTA FUNCIÓN SOLO SE LLAMA SI EL USUARIO HACE CLIC EN EL BOTÓN ROJO
 function limpiarMarcas() {
   document.querySelectorAll('.materia-row-check').forEach(fila => {
@@ -232,7 +232,7 @@ window.addEventListener('load', async () => {
   cargarGestionesEnSelects();
 
   // 4. Cargar gestiones de ingreso
-  cargarGestionesIngreso();
+ // cargarGestionesIngreso();
 
   // 5. Inicializar el lector de PDF
   inicializarLector();

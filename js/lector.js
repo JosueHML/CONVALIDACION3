@@ -384,20 +384,20 @@ function detectarMateriasAprobadas(texto) {
         confianza: 'alta'
       });
     }
-  }
-
-  // ═══════════════════════════════════════════════════════════
-  // PASO 3: Deduplicar por código (quedarse con la MÁS ANTIGUA)
-  // ═══════════════════════════════════════════════════════════
-  const porCodigo = {};
-  for (const m of detectadas) {
-    const anio = parseInt(m.gestion.split(' ')[0]);
-    if (!porCodigo[m.codigo] || anio < porCodigo[m.codigo]._anio) {
-      porCodigo[m.codigo] = { ...m, _anio: anio };
+    
+    // ═══════════════════════════════════════════════════════════
+    // PASO 3: Deduplicar por código (quedarse con la MÁS ANTIGUA)
+    // ═══════════════════════════════════════════════════════════
+    const porCodigo = {};
+    for (const m of detectadas) {
+      const anio = parseInt(m.gestion.split(' ')[0]);
+      if (!porCodigo[m.codigo] || anio < porCodigo[m.codigo]._anio) {
+        porCodigo[m.codigo] = { ...m, _anio: anio };
+      }
     }
-  }
 
-  return Object.values(porCodigo);
+    return Object.values(porCodigo);
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════

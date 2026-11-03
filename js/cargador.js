@@ -33,7 +33,8 @@ async function cargarTodosLosDatos() {
       electivas,
       cortes,
       electivasPorMencion,
-      electivas1998Convalidadas
+      electivas1998Convalidadas,
+      examenesMesa
     ] = await Promise.all([
       fetch('data/planes/plan_1998.json').then(r => r.json()),
       fetch('data/planes/plan_2023.json').then(r => r.json()),
@@ -41,7 +42,8 @@ async function cargarTodosLosDatos() {
       fetch('data/electivas_64h_32h.json').then(r => r.json()),
       fetch('data/cortes.json').then(r => r.json()),
       fetch('data/electivas_por_mencion.json').then(r => r.json()),
-      fetch('data/electivas_1998_convalidadas.json').then(r => r.json())
+      fetch('data/electivas_1998_convalidadas.json').then(r => r.json()),
+      fetch('data/examenes_mesa.json').then(r => r.json())
     ]);
 
     DATOS.plan1998 = plan1998;
@@ -51,6 +53,7 @@ async function cargarTodosLosDatos() {
     DATOS.cortes = cortes;
     DATOS.electivasPorMencion = electivasPorMencion;
     DATOS.electivas1998Convalidadas = electivas1998Convalidadas;
+    DATOS.examenesMesa = examenesMesa;
 
     // Cargar las 7 convalidaciones
     for (const [clave] of Object.entries(MAPA_ARCHIVOS_CONVALIDACION)) {
